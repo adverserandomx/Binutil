@@ -2,6 +2,15 @@
 #Include <Array.au3>
 
 _Singleton("d3gearswitcher")
+
+;---------------------------------------
+; Set up a Hot key to end the script
+;---------------------------------------
+Global $Paused
+Global $Toggle
+HotKeySet("+{=}", "RequestEnd")
+HotKeySet("{=}", "TogglePause")
+
 ;---------------------------------------
 ; Values read from the Settings.ini file
 ;---------------------------------------
@@ -31,13 +40,6 @@ $win_title = "Diablo III"; English
 $win_title_ch = "?????III"; Chinese
 $sleepTimeForCoordDetection = 2000
 
-;---------------------------------------
-; Set up a Hot key to end the script
-;---------------------------------------
-Global $Paused
-Global $Toggle
-HotKeySet("+{=}", "RequestEnd")
-HotKeySet("{=}", "TogglePause")
 
 ;---------------------------------------
 ; Window checks
