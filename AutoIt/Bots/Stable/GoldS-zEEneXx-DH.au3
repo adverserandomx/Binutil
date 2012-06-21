@@ -983,7 +983,7 @@ Func Pause()
    $Paused = Not $Paused
    While $Paused
       Sleep(100)
-	  ToolTip('Paused... Press {PAUSE} to continue...', 850, 0)
+	  ToolTip('Paused... Press {=} to continue or {-} to exit...', 850, 0)
    WEnd
    If $ShowStatTooltip = True Then
 	  ToolTip("Start: " & $StartTime & "  |  Runs: " & $Runs & "  |  Closed:  " & $Closed & "  |  Deaths: " & $Deaths & "  |  Disconnects: " & $Disconnects & "  |  Runtime: " & $Runtime & "  |  Legendaries: " & $Legendaries & "  |  Sets: " & $Sets & "  |  Rares: " & $Rares & "  |  Magics: " & $Magics & "  |  Tomes: " & $Tomes & "  |  Gems: " & $Gems & "  |  Sold: " & $Sold, 530, 0)

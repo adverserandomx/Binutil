@@ -55,27 +55,34 @@ Global $CellarOffset
 Global $CellarPixel
 Global $Paused
 
+Global $LocalSessionTimer ; used to measure session times
+Global $SuccessfulSession = False ; set to true when we find cellar
+Global $AvgCellarTime = 0
+Global $AvgFailedTime = 0
+Global $SessionSek = 0 ; measure this session in seconds
+
+
 ;///////////////////////////////////////--CONFIG--////////////////////////////////////////////////////////////////////////////////
 ;																																//
 ;										Important																				//
 $ComputerLag		= 0											;Increase this in steps of 400 if you have slow loading times	//
-$MoveDelay			= 0											;Increase this in steps of 100 if you have movement issues		//
+$MoveDelay			= 100												;Increase this in steps of 100 if you have movement issues		//
 $LootDelay			= 0											;Increase this in steps of 200 if you have looting issues		//
-$ImgDir				= "C:\D3\AutoIt\pics\"	;Location of the image folder									//
+$ImgDir				= "C:\d3\AutoIt\DH\pics\"	;Location of the image folder									//
 ;																																//
 ;									    Functions																				//
 $Repair				= True										;Orders the bot to repair when items are damaged				//
 $Sell				= True										;Orders the bot to sell magic items when bag is full			//
 $UseStash			= True										;Orders the bot to put gems and rare items into the stash		//
-$HighGoldRadius		= True										;Set this to true if you have more than +18 gold radius			//
+$HighGoldRadius		= False										;Set this to true if you have more than +18 gold radius			//
 ;																																//
 ;								   	  Miscellaneous																				//
 $Sounds				= True										;Enable pickup sounds											//
-$SoundsDir			= "C:\D3\AutoIt\sounds\"	;Location of the sounds folder									//
+$SoundsDir			= "C:\d3\AutoIt\DH\sounds\"	;Location of the sounds folder									//
 $ShowLootArea		= True										;Shows lootarea													//
 $ShowStatTooltip	= True										;Shows statistics from current session							//
 $SaveStats			= True										;Saves current statistics to a *.txt file						//
-$SaveStatsPath		= "C:\D3\AutoIt\logs\"	;Folder to save the statistics in								//
+$SaveStatsPath		= "C:\d3\AutoIt\DH\logs\"	;Folder to save the statistics in								//
 ;																																//
 ;									   Relogging																				//									
 $UseRelogging		= True										;Enable Relogging												//
@@ -86,8 +93,8 @@ $Password			= "letmein68$"								;Your password													//
 $LootLegendaries	= True										;Loot legendary items											//
 $LootSets			= True										;Loot set items													//
 $LootRares			= True										;Loot rare items												//
-$LootMagics			= True										;Loot magic items (includes tomes)								//
-$LootTomes			= True										;Loot tomes														//
+$LootMagics			= False										;Loot magic items (includes tomes)								//
+$LootTomes			= False									;Loot tomes														//
 $LootGems			= False										;Loot gems														//
 ;																																//
 ;	   <<<Changes below have an significant impact on the needed time for one run>>>											//
@@ -171,7 +178,7 @@ $MoveToCellar1[0]			= 500
 $MoveToCellar1[1]			= 250
 $MoveToCellar2[0]			= 1
 $MoveToCellar2[1]			= 370
-$MoveToCellar3[0]			= 365 ;400
+$MoveToCellar3[0]			= 400 ;365
 $MoveToCellar3[1]			= 600 ;600	
 
 $MoveInCellar1[0]			= 116
@@ -194,8 +201,8 @@ $MoveToStash1[1]			= 950
 $MoveToStash2[0]			= 270
 $MoveToStash2[1]			= 930
 
-$CellarLocation[0] 			= 333; 307
-$CellarLocation[1] 			= 77; 74
+$CellarLocation[0] 			= 307 ;333; 307
+$CellarLocation[1] 			= 74 ; 77
 
 $MonsterLocation[0] 		= 577
 $MonsterLocation[1] 		= 183
@@ -305,8 +312,11 @@ HotKeySet('{-}', 'Terminate')
 Pause()
 $Timer = TimerInit()
 
+
+
 If $ShowStatTooltip = True Then
-   ToolTip("Start: " & $StartTime & "  |  Runs: " & $Runs & "  |  Closed:  " & $Closed & "  |  Deaths: " & $Deaths & "  |  Disconnects: " & $Disconnects & "  |  Runtime: " & $Runtime & "  |  Legendaries: " & $Legendaries & "  |  Sets: " & $Sets & "  |  Rares: " & $Rares & "  |  Magics: " & $Magics & "  |  Tomes: " & $Tomes & "  |  Gems: " & $Gems & "  |  Sold: " & $Sold, 530, 0)
+   PrintToolTip()
+   ;ToolTip("Start: " & $StartTime & "  |  Runs: " & $Runs & "  |  Closed:  " & $Closed & "  |  Deaths: " & $Deaths & "  |  Disconnects: " & $Disconnects & "  |  Runtime: " & $Runtime & "  |  Legendaries: " & $Legendaries & "  |  Sets: " & $Sets & "  |  Rares: " & $Rares & "  |  Magics: " & $Magics & "  |  Tomes: " & $Tomes & "  |  Gems: " & $Gems & "  |  Sold: " & $Sold, 530, 0)
 EndIf
 
 WinActivate('Diablo III')
@@ -363,29 +373,37 @@ While 1
 	  
 	  WEnd
 	  
-	  
+	  $LocalSessionTimer = TimerInit()
 	  Sleep(200 + $Computerlag)
-	  Send("{2}")
+	  ;Send("{2}") ;smoke screen
 	  Sleep(200 + $Computerlag)
 	  
 	  Move($MoveToCellar1[0], $MoveToCellar1[1])
 	  Sleep(150 + $MoveDelay)
-	  Send("{4}")
+	  Send("{4}") ;smoke
 	  Sleep(500)
 	  Move($MoveToCellar2[0], $MoveToCellar2[1]) 
 	  Sleep(900 + $MoveDelay)
-	  ;Pause()
+		
 	  Move($MoveToCellar3[0], $MoveToCellar3[1])
-	  
+   
 	  MouseMove($CellarLocation[0], $CellarLocation[1], 5)
-	  Sleep(1000 + $MoveDelay)
+	  Sleep(900 + $MoveDelay)
 	  
-      $CellarPixel = PixelSearch($CellarLocation[0]-$CellarOffset, $CellarLocation[1]-$CellarOffset, $CellarLocation[0]+4, $CellarLocation[1]+4, 0x334FB7, 6)
+	  $CellarPixel = PixelSearch($CellarLocation[0]-$CellarOffset, $CellarLocation[1]-$CellarOffset, $CellarLocation[0]+4, $CellarLocation[1]+4, 0x334FB7, 6)
 	  If @error Then
 		 Sleep(200 + $Computerlag)
-		 MouseClick('RIGHT')
+		 Send("{LSHIFT down}")
+		 Send("{2}"); sentry turrent
+		 Sleep(250)
+		 Send("{LSHIFT up}")
+		 
+		 MouseDown('RIGHT')
+		 Sleep(100)
+		 MouseUp('RIGHT')
 		 Sleep(400 + $Computerlag)
 		 $Closed+=1
+		 $SuccessfulSession = False
 		 Send("{t}")
 		 Sleep(6500 + $Computerlag)
 		 LeaveGame()
@@ -406,30 +424,45 @@ While 1
 	  MouseMove($MonsterLocation[0],$MonsterLocation[1], 5)
 	  Sleep(150 + $Computerlag)
 
-	  Send("{1}")
-	  Sleep(200 + $Computerlag)
-	  MouseClick('RIGHT')
-	  Sleep(400 + $Computerlag)
-	  Send("{3}")
-	  Sleep(150 + $Computerlag)
+	  Send("{3}") ;companion
+	  ;Sleep(200 + $Computerlag)
+	  ;MouseClick('RIGHT')
+	  Sleep(250 + $Computerlag)
+	  Send("{2}")
+	  Sleep(250 + $Computerlag)
 	  
+	  MouseMove(432, 259, 1)
+	  Send("{1}") ; cluster arrow
+	  Sleep(250)
+	  Send("{1}") ; cluster arrow
+	  Sleep(250)
+	  Send("{1}") ; cluster arrow
+	  Sleep(250)
+	  
+	  Dim $clusterArrowWait = 0
 	  While 1
 		 $MonsterBar = PixelSearch($MonsterSearchArea[0], $MonsterSearchArea[1], $MonsterSearchArea[2], $MonsterSearchArea[3], 0xEE0000, 10)
 		 If @error Then
 			Attack($MonsterLocation[0],$MonsterLocation[1])
 			Sleep(850)
+			$clusterArrowWait = $clusterArrowWait + 8
 			$MonsterBar =  PixelSearch($MonsterSearchArea[0], $MonsterSearchArea[1], $MonsterSearchArea[2], $MonsterSearchArea[3], 0xEE0000, 10)
 			If @error Then
 			   ExitLoop
 			EndIf
 		 EndIf
-		 
-	
+	  
 		 For $i = 7 To 0 step -1
 			Attack($MonsterBar[0], $MonsterBar[1])
 			Sleep(100)
-			   
-		  Next
+			$clusterArrowWait = $clusterArrowWait + 1
+		 Next
+		 if $clusterArrowWait > 50 Then
+			  MouseMove(432, 259, 1)
+			Send("{1}") ; cluster arrow
+			Sleep(250)
+			$clusterArrowWait = 0
+		 EndIf
 	  WEnd
 	  
 	  If $HighGoldRadius = True Then
@@ -482,6 +515,7 @@ While 1
 	  If CheckForDeath() Then
 		 ContinueLoop
 	  EndIf
+	  $SuccessfulSession = True
 	  
 	  Sleep(500)
 	  Send("{t}")
@@ -910,6 +944,7 @@ Func Attack($x, $y)
    Send("{SHIFTDOWN}")
    MouseClick('LEFT', Random($x - 3, $x + 3), Random($y - 3, $y + 3), 1, 0)
    Send("{SHIFTUP}")
+   Sleep(100)
 EndFunc	
 
 Func Move($x, $y)
@@ -951,8 +986,18 @@ Func LeaveGame()
    $Min 	= Floor($Sek / 60)
    $Hour 	= Floor($Min / 60)
    $Runtime = $Hour & "h " & ($Min-$Hour*60) & "m " & ($Sek-$Min*60) & "s"
+   
+   $SessionSek = Floor(TimerDiff($LocalSessionTimer) / 1000)
+   if $SuccessfulSession Then
+	  $CellarCount = $Runs - $Closed
+	  $AvgCellarTime = (($AvgCellarTime * ($CellarCount - 1)) + $SessionSek) / $CellarCount
+   Else
+	  $AvgFailedTime = (($AvgFailedTime * ($Closed - 1)) + $SessionSek) / $Closed
+   EndIf
+   
    If $ShowStatTooltip = True Then
-	  ToolTip("Start: " & $StartTime & "  |  Runs: " & $Runs & "  |  Closed:  " & $Closed & "  |  Deaths: " & $Deaths & "  |  Disconnects: " & $Disconnects & "  |  Runtime: " & $Runtime & "  |  Legendaries: " & $Legendaries & "  |  Sets: " & $Sets & "  |  Rares: " & $Rares & "  |  Magics: " & $Magics & "  |  Tomes: " & $Tomes & "  |  Gems: " & $Gems & "  |  Sold: " & $Sold, 530, 0)
+	  PrintToolTip()
+	  ;ToolTip("Start: " & $StartTime & "  |  Runs: " & $Runs & "(" & $AverageSuccessfulSessionTime & ")  |  Closed:  " & $Closed & " (" & $AverageFailedSessionTime & ")  |  Deaths: " & $Deaths & "  |  Disconnects: " & $Disconnects & "  |  Runtime: " & $Runtime & "  |  Legendaries: " & $Legendaries & "  |  Sets: " & $Sets & "  |  Rares: " & $Rares & "  |  Magics: " & $Magics & "  |  Tomes: " & $Tomes & "  |  Gems: " & $Gems & "  |  Sold: " & $Sold, 530, 0)
    EndIf
    Send("{ESC}")
    Sleep(200)
@@ -969,10 +1014,15 @@ Func Pause()
 	  ToolTip('Paused... Press {PAUSE} to continue...', 850, 0)
    WEnd
    If $ShowStatTooltip = True Then
-	  ToolTip("Start: " & $StartTime & "  |  Runs: " & $Runs & "  |  Closed:  " & $Closed & "  |  Deaths: " & $Deaths & "  |  Disconnects: " & $Disconnects & "  |  Runtime: " & $Runtime & "  |  Legendaries: " & $Legendaries & "  |  Sets: " & $Sets & "  |  Rares: " & $Rares & "  |  Magics: " & $Magics & "  |  Tomes: " & $Tomes & "  |  Gems: " & $Gems & "  |  Sold: " & $Sold, 530, 0)
+	  PrintToolTip()
+	  ;ToolTip("Start: " & $StartTime & "  |  Runs: " & $Runs & "  |  Closed:  " & $Closed & "  |  Deaths: " & $Deaths & "  |  Disconnects: " & $Disconnects & "  |  Runtime: " & $Runtime & "  |  Legendaries: " & $Legendaries & "  |  Sets: " & $Sets & "  |  Rares: " & $Rares & "  |  Magics: " & $Magics & "  |  Tomes: " & $Tomes & "  |  Gems: " & $Gems & "  |  Sold: " & $Sold, 530, 0)
    Else
 	  ToolTip("")
    EndIf
+EndFunc
+
+Func PrintToolTip()
+   ToolTip("Start: " & $StartTime & " (" & $SessionSek & ")  |  Runs: " & $Runs & " (" & $AvgCellarTime & ")  |  Closed:  " & $Closed & " (" & $AvgFailedTime & ")  |  Deaths: " & $Deaths & "  |  Disconnects: " & $Disconnects & "  |  Runtime: " & $Runtime & "  |  Legendaries: " & $Legendaries & "  |  Sets: " & $Sets & "  |  Rares: " & $Rares & "  |  Magics: " & $Magics & "  |  Tomes: " & $Tomes & "  |  Gems: " & $Gems & "  |  Sold: " & $Sold, 530, 0)
 EndFunc
 
 Func Terminate()
