@@ -990,9 +990,9 @@ Func LeaveGame()
    $SessionSek = Floor(TimerDiff($LocalSessionTimer) / 1000)
    if $SuccessfulSession Then
 	  $CellarCount = $Runs - $Closed
-	  $AvgCellarTime = (($AvgCellarTime * ($CellarCount - 1)) + $SessionSek) / $CellarCount
+	  $AvgCellarTime = Floor((($AvgCellarTime * ($CellarCount - 1)) + $SessionSek) / $CellarCount)
    Else
-	  $AvgFailedTime = (($AvgFailedTime * ($Closed - 1)) + $SessionSek) / $Closed
+	  $AvgFailedTime = Floor((($AvgFailedTime * ($Closed - 1)) + $SessionSek) / $Closed)
    EndIf
    
    If $ShowStatTooltip = True Then
