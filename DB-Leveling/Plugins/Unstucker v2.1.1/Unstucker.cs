@@ -16,7 +16,7 @@ namespace Eax.Plugins
     public class Unstucker : IPlugin
     {        
         // Maximum amount of times Unstucker should try to unstuck via movement before leaving the game.
-        private const int MaximumMoveAttempts = 0;
+        private const int MaximumMoveAttempts = 5;
 
         // Time Unstucker will wait in seconds between evaluating the logged positions. Decrease this if you find your character and Unstucker doing nothing a lot.
         private const int CheckInterval = 20;
