@@ -411,7 +411,7 @@ While 1
 	  EndIf
 	   
 	  Move($MoveInCellar1[0], $MoveInCellar1[1])
-	  Sleep(1000 + $MoveDelay)
+	  Sleep(1100 + $MoveDelay)
 	  Move($MoveInCellar2[0], $MoveInCellar2[1])
 	  Sleep(10 + $MoveDelay)
 	  MouseMove($MonsterLocation[0],$MonsterLocation[1], 5)

@@ -1,0 +1,25 @@
+[Button]
+Button= {F1}
+[Inventory]
+Inventory= {i}
+[CloseAllButton]
+CloseAllButton= {BACKSPACE}
+[NumOfItems]
+NumOfItems= 12
+[SwitchBothRings]
+SwitchBothRings=True
+[Coords]
+1370=689
+1431=699
+1487=702
+1537=706
+1599=705
+1649=702
+1702=704
+1753=706
+1813=677
+1813=725
+1863=701
+1857=784
+[SecRingCoords]
+1859=843

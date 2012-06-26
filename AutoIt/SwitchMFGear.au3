@@ -1,6 +1,7 @@
 #include <Misc.au3>
 #Include <Array.au3>
 
+#RequireAdmin
 _Singleton("d3gearswitcher")
 
 ;---------------------------------------
@@ -8,8 +9,8 @@ _Singleton("d3gearswitcher")
 ;---------------------------------------
 Global $Paused
 Global $Toggle
-HotKeySet("+{=}", "RequestEnd")
-HotKeySet("{=}", "TogglePause")
+HotKeySet("{F3}", "RequestEnd")
+HotKeySet("{F2}", "TogglePause")
 
 ;---------------------------------------
 ; Values read from the Settings.ini file
@@ -84,10 +85,12 @@ func ButtonPress()
 	  BlockInput(1)
 	  $StartPos = MouseGetPos()
 	  Send($CloseAllButton)
+	  Sleep(100)
 	  Send($Inventory)
 	  Sleep(100)
 	  For $i = 1 To $upperBound
-		 MouseClick ( "right", $Coords[$i][0], $Coords[$i][1], 1, 0 )
+		 MouseClick ("right", $Coords[$i][0], $Coords[$i][1], 1, 1 )
+		 ;Sleep(100)
 		 ;ToolTip("i = " & $i)
 		 ;TogglePause()
 	  Next
