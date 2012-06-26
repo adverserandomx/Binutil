@@ -1,0 +1,36 @@
+<Profile>
+  <!-- 
+  Steps before loading and running the profie with the bot.
+    * Change quest to "Act1 Legacy of Cain, Explore Cellar", Inferno difficulty.
+    * Start Game
+    * From town take the waypoint to -> "The Old Ruins"
+    * Run west until you reach the checkpoint, ( opposite way of where the cathedral is. )
+    * Once you are saved load the profile and hit Start!
+    * Enjoy!
+  -->
+  
+  <Name>Sarkoth farm profile by adx (derived from Nesox) for WD</Name>
+  <GameParams quest="72095" step="51" act="A1" difficulty="Inferno" resumeFromSave="True" isPrivate="True" numGames="-1"  />
+  <Order>
+    <WriteReport />
+
+    <MoveTo questId="1" x="1993.286" y="2624.005" z="30.16507" pathPrecision="3" />
+    
+    <UsePower x="1996.962" y="2589.192" z="27.09873" questId="1" powerId="106237" name="Spirit Walk 1"/>
+    <WaitTimer questId="1" waitTime="50" />
+    
+    <MoveTo questId="1" x="2021.738" y="2566.262" z="27.1" name="Dank cellar portal, Scout spot" />
+    <!--<MoveTo questId="1" x="2054.739" y="2554.968" z="27.1" name="Dank cellar portal, Scout spot" />-->
+    
+    <If condition="ActorExistsAt(176007, 2059.629, 2478.667, 27.02374, 15)">
+	  <UseObject questId="1" x="2058.653" y="2476.354" z="26.32902" actorId="176007" isPortal="True" destinationWorldId="106746" />
+      <!--<MoveTo questId="1" x="122.9589" y="138.6723" z="0.1" />-->
+
+      <MoveTo questId="1" x="117.8131" y="103.533" z="0.1000004" />
+    </If>
+    <UseTownPortal questId="1" />
+    <LeaveGame reason="Run is done" />
+  </Order>
+  <KillMonsters>True</KillMonsters>
+  <PickupLoot>True</PickupLoot>
+</Profile>
