@@ -380,14 +380,14 @@ While 1
 	  
 	  Move($MoveToCellar1[0], $MoveToCellar1[1])
 	  Sleep(150 + $MoveDelay)
-	  Send("{4}")
+	  Send("{4}") ;spirit walkf
 	  Sleep(500)
 	  Move($MoveToCellar2[0], $MoveToCellar2[1]) 
-	  Sleep(750 + $MoveDelay)
+	  Sleep(550 + $MoveDelay)
 	  ;Pause()
 	  Move($MoveToCellar3[0], $MoveToCellar3[1])
 	  
-	  MouseMove($CellarLocation[0], $CellarLocation[1], 5)
+	  MouseMove($CellarLocation[0], $CellarLocation[1], 1)
 	  Sleep(800 + $MoveDelay)
 	  
       $CellarPixel = PixelSearch($CellarLocation[0]-$CellarOffset, $CellarLocation[1]-$CellarOffset, $CellarLocation[0]+4, $CellarLocation[1]+4, 0x334FB7, 6)
@@ -411,7 +411,7 @@ While 1
 	  EndIf
 	   
 	  Move($MoveInCellar1[0], $MoveInCellar1[1])
-	  Sleep(1100 + $MoveDelay)
+	  Sleep(1000 + $MoveDelay)
 	  Move($MoveInCellar2[0], $MoveInCellar2[1])
 	  Sleep(10 + $MoveDelay)
 	  MouseMove($MonsterLocation[0],$MonsterLocation[1], 5)
@@ -493,6 +493,8 @@ While 1
 	  If CheckForDeath() Then
 		 ContinueLoop
 	  EndIf
+	  ;HACK: Final quick move just to loot an extra crap Hack just for my character
+	  Move($MoveToGoldLoot3[0], $MoveToGoldLoot3[1])
 	  $SuccessfulSession = True
 	  
 	  Sleep(500)
