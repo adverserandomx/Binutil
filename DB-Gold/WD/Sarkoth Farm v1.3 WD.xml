@@ -1,12 +1,17 @@
 <Profile>
-  <!-- 
-  Steps before loading and running the profie with the bot.
-    * Change quest to "Act1 Legacy of Cain, Explore Cellar", Inferno difficulty.
+<!-- 
+Steps before loading and running the profie with the bot.
+    * Change quest to "Act1 Legacy of Cain, Shattered Crown (Northwest Gate)", Inferno difficulty.
     * Start Game
     * From town take the waypoint to -> "The Old Ruins"
     * Run west until you reach the checkpoint, ( opposite way of where the cathedral is. )
     * Once you are saved load the profile and hit Start!
     * Enjoy!
+
+misc notes:	
+	30 loot radius
+	40 kill	radius
+	plugin: icool's sarkoth helper
   -->
   
   <Name>Sarkoth farm profile by adx (derived from Nesox) for WD</Name>
