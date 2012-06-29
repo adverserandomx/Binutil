@@ -19,15 +19,19 @@
     <UsePower x="1996.962" y="2589.192" z="27.09873" questId="1" powerId="106237" name="Spirit Walk 1"/>
     <WaitTimer questId="1" waitTime="50" />
     
-    <MoveTo questId="1" x="2021.738" y="2566.262" z="27.1" name="Dank cellar portal, Scout spot" />
+	<MoveTo questId="1" x="2060.883" y="2519.806" z="27.1" name="Sarkoth?" />
     <!--<MoveTo questId="1" x="2054.739" y="2554.968" z="27.1" name="Dank cellar portal, Scout spot" />-->
     
-    <If condition="ActorExistsAt(176007, 2059.629, 2478.667, 27.02374, 15)">
-	  <UseObject questId="1" x="2058.653" y="2476.354" z="26.32902" actorId="176007" isPortal="True" destinationWorldId="106746" />
+	<If condition="ActorExistsAt(176007, 2059.629, 2478.667, 27.02374, 15)">
+      <UseObject questId="1" x="2058.653" y="2476.354" z="26.32902" actorId="176007" isPortal="True" destinationWorldId="106746" />
       <!--<MoveTo questId="1" x="122.9589" y="138.6723" z="0.1" />-->
 
       <MoveTo questId="1" x="117.8131" y="103.533" z="0.1000004" />
     </If>
+	
+	<!-- The WD is safer to call the army before TP'ing -->
+	<UsePower questId="1" powerId="72785" name="Fetish Army"/>
+
     <UseTownPortal questId="1" />
     <LeaveGame reason="Run is done" />
   </Order>
