@@ -1,0 +1,394 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<ItemRules name="Alice Custom Ruleset" useRoundedValues="true">
+  <!-- The order in which item rules are evaluated. Typically, this is fine for almost all rule sets. 
+  However, you may want to switch things around sometimes if you want to force-sell things that may match keep rules. -->
+  <Priority priority1="Keep" priority2="Sell" priority3="Salvage"  />
+
+  <Categories>
+  <!-- The PickUp Rules -->
+    <Category ruleType="PickUp">
+	
+		  <!-- Pick up all magic+ items and jewelry with at least ilvl 60-->
+		  <!--
+		<ItemRule quality="Magic1">
+			<StatRules>
+
+				<Rule stat="Level" minValue="60" quality="Magic1" />
+			</StatRules>
+		</ItemRule>
+		
+
+		<ItemRule quality="Magic1" itemBaseType="Jewelry">
+			<StatRules>
+
+				<Rule stat="Level" minValue="59" quality="Magic1" />
+			</StatRules>
+		</ItemRule>
+		
+		-->
+		
+		  <!-- Pick up all rare items -->
+		<ItemRule>
+			<StatRules>
+				<Rule quality="Rare4" />
+			</StatRules>
+		</ItemRule>
+		
+		  <!-- Make sure to Pick up ALL Legendary items, Should be covered by the rare+ rule above but better safe than sorry -->
+		<ItemRule>
+			<StatRules>
+				<Rule quality="Legendary" />
+			</StatRules>
+		</ItemRule>
+			
+		<!-- Pick up all gold-->
+		<ItemRule itemName="Gold" stack="1" />
+		  
+		<!-- Pick up all pages,tomes and plans, blacksmithing/jewelcrafting -->
+		<ItemRule itemName="Page of*" stack="1" />
+		<ItemRule itemName="Tome of*" stack="1" />
+		<ItemRule itemName="*Plan:*" />
+		<ItemRule itemName="*Design:*" />
+		<!-- Pick up all Level 8+ Gems -->
+		<ItemRule itemName="Flawless Square Emerald" stack="1" />
+		<ItemRule itemName="Perfect Square*" stack="1" />
+		<ItemRule itemName="Radiant Square*" stack="1" />
+		<ItemRule itemName="Star*" stack="1" />
+			
+		<!-- Health potions -->
+		<ItemRule itemName="*Health Potion*" stack="1" />
+    </Category>
+
+<!-- The Keep Rules -->
+<Category ruleType="Keep">
+
+<!-- Keep rules for plans, designs and mats -->
+
+	<ItemRule itemName="*Plan:*" />
+	<ItemRule itemName="*Design:*" />	
+	<ItemRule itemName="*Essence" />
+	<ItemRule itemName="*Tear" />
+	<ItemRule itemName="*Hoof" />
+	<ItemRule itemName="*Brimstone" />
+	
+<!-- Start of the set item combo rules -->
+
+	<!-- Weapon Rules -->
+	<ItemRule itemBaseType="Weapon" twoHanded="true" description="High DPS Rare 2h Weapons">
+		<StatRules>
+			<Rule stat="DPS" minValue="900" quality="Magic1" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemBaseType="Weapon" twoHanded="true" description="High DPS Magic 2h Weapons">
+		<StatRules>
+			<Rule stat="DPS" minValue="800" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemBaseType="Weapon" twoHanded="false" description="High DPS Rare 1h Weapons">
+		<StatRules>
+			<Rule stat="DPS" minValue="800" quality="Magic1" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemBaseType="Weapon" twoHanded="false" description="High DPS Magic 1h Weapons">
+		<StatRules>
+			<Rule stat="DPS" minValue="650" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+
+	<!-- Armor Rules -->
+	<ItemRule itemBaseType="Armor" description="Magic armor with GoldFind">
+		<StatRules>
+			<Rule stat="GoldFind" minValue="20" quality="Magic1" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemBaseType="Armor" description="Magic armor with MagicFind">
+		<StatRules>
+			<Rule stat="MagicFind" minValue="20" quality="Magic1" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemBaseType="Armor" description="Magic armor with GF + MF">
+		<StatRules>
+			<Rule stat="MagicFind" minValue="15" quality="Magic1" />
+			<Rule stat="GoldFind" minValue="15" quality="Magic1" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemBaseType="Armor" description="Rare armor with 150+Int">
+		<StatRules>
+			<Rule stat="Intelligence" minValue="150" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemBaseType="Armor" description="Rare armor with 150+Vit">
+		<StatRules>
+			<Rule stat="Vitality" minValue="150" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemBaseType="Armor" description="Rare armor with 150+Dex">
+		<StatRules>
+			<Rule stat="Dexterity" minValue="150" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemBaseType="Armor" description="Rare armor with 150+Str">
+		<StatRules>
+			<Rule stat="Strength" minValue="150" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemBaseType="Armor" description="Rare armor with 70+Vit and 70+Int">
+		<StatRules>
+			<Rule stat="Vitality" minValue="70" quality="Rare4" />
+			<Rule stat="Intelligence" minValue="70" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemBaseType="Armor" description="Rare armor with 70+Vit and 70+Str">
+		<StatRules>
+			<Rule stat="Vitality" minValue="70" quality="Rare4" />
+			<Rule stat="Strength" minValue="70" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemBaseType="Armor" description="Rare armor with 70+Vit and 70+Dex">
+		<StatRules>
+			<Rule stat="Vitality" minValue="70" quality="Rare4" />
+			<Rule stat="Dexterity" minValue="70" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemBaseType="Armor" description="Rare armor with 80+ Vit and 35+ResistAll">
+		<StatRules>
+			<Rule stat="Vitality" minValue="80" quality="Rare4" />
+			<Rule stat="ResistAll" minValue="35" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemBaseType="Armor" description="Rare armor with 80+Int and 35+ResistAll">
+		<StatRules>
+			<Rule stat="Intelligence" minValue="80" quality="Rare4" />
+			<Rule stat="ResistAll" minValue="35" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemBaseType="Armor" description="Rare armor with 80+ Dex and 35+ResistAll">
+		<StatRules>
+			<Rule stat="Dexterity" minValue="80" quality="Rare4" />
+			<Rule stat="ResistAll" minValue="35" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemBaseType="Armor" description="Rare armor">
+		<StatRules>
+			<Rule stat="Vitality" minValue="60" quality="Rare4" />
+			<Rule stat="Strength" minValue="60" quality="Rare4" />
+			<Rule stat="ResistAll" minValue="35" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemBaseType="Armor" description="Rare armor">
+		<StatRules>
+			<Rule stat="Vitality" minValue="60" quality="Rare4" />
+			<Rule stat="Intelligence" minValue="60" quality="Rare4" />
+			<Rule stat="ResistAll" minValue="35" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemBaseType="Armor" description="Rare armor">
+		<StatRules>
+			<Rule stat="Vitality" minValue="60" quality="Rare4" />
+			<Rule stat="Dexterity" minValue="60" quality="Rare4" />
+			<Rule stat="ResistAll" minValue="35" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemBaseType="Armor" description="Rare armor">
+		<StatRules>
+			<Rule stat="Vitality" minValue="60" quality="Rare4" />
+			<Rule stat="ArmorBonus" minValue="60" quality="Rare4" />
+			<Rule stat="ResistAll" minValue="35" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+	<!-- Helm Rules -->
+	<ItemRule itemType="Helm" description="Magic Helm">
+		<StatRules>
+			<Rule stat="MagicFind" minValue="12" quality="Magic1" />
+			<Rule stat="GoldFind" minValue="12" quality="Magic1" />
+			<Rule stat="Sockets" minValue="1" quality="Magic1" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemType="Helm" description="Magic Helm">
+		<StatRules>
+			<Rule stat="MagicFind" minValue="18" quality="Magic1" />
+			<Rule stat="Sockets" minValue="1" quality="Magic1" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemType="Helm" description="Magic Helm">
+		<StatRules>
+			<Rule stat="GoldFind" minValue="18" quality="Magic1" />
+			<Rule stat="Sockets" minValue="1" quality="Magic1" />
+		</StatRules>
+	</ItemRule>
+	
+	<ItemRule itemType="Helm" description="Rare Helm">
+		<StatRules>
+			<Rule stat="CritPercent" minValue="4" quality="Rare4" />
+			<Rule stat="Sockets" minValue="1" quality="Magic1" />
+		</StatRules>
+	</ItemRule>
+	<!-- Bracer Rules -->
+	
+	<ItemRule itemType="Bracer" description="Rare Bracer">
+		<StatRules>
+			<Rule stat="CritPercent" minValue="4" quality="Rare4" />
+			<Rule stat="Intelligence" minValue="80" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+	
+		<ItemRule itemType="Bracer" description="Rare Bracer">
+		<StatRules>
+			<Rule stat="CritPercent" minValue="4" quality="Rare4" />
+			<Rule stat="Dexterity" minValue="80" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+	
+		<ItemRule itemType="Bracer" description="Rare Bracer">
+		<StatRules>
+			<Rule stat="CritPercent" minValue="4" quality="Rare4" />
+			<Rule stat="Strength" minValue="80" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+	
+
+	<!-- Glove Rules -->
+	<ItemRule itemType="Gloves" description="Rare armor">
+		<StatRules>
+			<Rule stat="AttackSpeedPercent" minValue="5" quality="Rare4" />
+			<Rule stat="CritPercent" minValue="4" quality="Rare4" />
+			<Rule stat="CritDamagePercent" minValue="14" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemType="Gloves" description="Rare armor">
+		<StatRules>
+			<Rule stat="AttackSpeedPercent" minValue="5" quality="Rare4" />
+			<Rule stat="CritDamagePercent" minValue="20" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemType="Gloves" description="Rare armor">
+		<StatRules>
+			<Rule stat="AttackSpeedPercent" minValue="5" quality="Rare4" />
+			<Rule stat="CritPercent" minValue="6" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+
+	<!-- Boots Rules -->
+	<ItemRule itemType="Boots" description="Rare armor">
+		<StatRules>
+			<Rule stat="MovementSpeed" minValue="10" quality="Rare4" />
+			<Rule stat="Dexterity" minValue="40" quality="Rare4" />
+			<Rule stat="Vitality" minValue="40" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemType="Boots" description="Rare armor">
+		<StatRules>
+			<Rule stat="MovementSpeed" minValue="10" quality="Rare4" />
+			<Rule stat="Strength" minValue="40" quality="Rare4" />
+			<Rule stat="Vitality" minValue="40" quality="Rare4" />                    
+		</StatRules>
+	</ItemRule>
+
+	<ItemRule itemType="Boots" description="Rare armor">
+		<StatRules>
+			<Rule stat="MovementSpeed" minValue="10" quality="Rare4" />
+			<Rule stat="Intelligence" minValue="40" quality="Rare4" />
+			<Rule stat="Vitality" minValue="40" quality="Rare4" />                    
+		</StatRules>
+	</ItemRule>
+	
+	<!-- Quiver Rules -->
+	<ItemRule itemType="Quiver" description="Rare armor">
+		<StatRules>
+			<Rule stat="Dexterity" minValue="100" quality="Rare4" />
+			<Rule stat="AttackSpeedPercent" minValue="10" quality="Rare4" />
+			<Rule stat="CritPercent" minValue="1" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+
+	<!-- Mojo Rules -->
+	<ItemRule itemType="Mojo" description="Rare armor">
+		<StatRules>
+			<Rule stat="Intelligence" minValue="100" quality="Rare4" />
+			<Rule stat="CritPercent" minValue="5" quality="Rare4" />
+		</StatRules>
+	</ItemRule>
+
+	<!-- Jewelry Rules -->
+	<ItemRule itemBaseType="Jewelry" description="Rare jewelry">
+		<StatRules>
+			<Rule quality="Rare4" />
+		</StatRules>
+	</ItemRule>            
+
+	<!-- Make sure to keep ALL Legendaries -->
+	<ItemRule description="Legendary">
+		<StatRules>
+			<Rule quality="Legendary" />                           
+		</StatRules>
+	</ItemRule>
+
+</Category>
+
+<!-- Salvage Rules -->
+<Category ruleType="Salvage">
+
+	<ItemRule itemBaseType="Armor" description="Salvage Armor ilvl 61+">
+		<StatRules>
+			<Rule stat="Level" minValue="61" quality="Magic1"/>
+		</StatRules>
+	</ItemRule>
+	
+	<ItemRule itemBaseType="Weapon" twoHanded="True" description="Salvage Two Handed Weapons ilvl 61+">
+		<StatRules>
+			<Rule stat="Level" minValue="61" quality="Magic1"/>
+		</StatRules>
+	</ItemRule>
+	
+	<ItemRule itemBaseType="Weapon" twoHanded="False" description="Salvage One Handed Weapons ilvl 61+">
+		<StatRules>
+			<Rule stat="Level" minValue="61" quality="Magic1"/>
+		</StatRules>
+	</ItemRule>
+	
+	<ItemRule itemBaseType="Jewelry" description="Salvage Jewelry ilvl 59+">
+		<StatRules>
+			<Rule stat="Level" minValue="59" quality="Magic1"/>
+		</StatRules>
+	</ItemRule>
+	
+</Category>
+	
+<Category ruleType="Sell">
+
+  <ItemRule description="Sell Everything Else">
+	<StatRules>
+	  <Rule quality="Magic1" />
+	</StatRules>
+  </ItemRule>
+  
+</Category>
+    
+</Categories>
+
+</ItemRules>

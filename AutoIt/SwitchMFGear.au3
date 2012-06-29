@@ -9,8 +9,8 @@ _Singleton("d3gearswitcher")
 ;---------------------------------------
 Global $Paused
 Global $Toggle
-HotKeySet("{F3}", "RequestEnd")
-HotKeySet("{F2}", "TogglePause")
+HotKeySet("{F4}", "RequestEnd")
+HotKeySet("{F3}", "TogglePause")
 
 ;---------------------------------------
 ; Values read from the Settings.ini file
