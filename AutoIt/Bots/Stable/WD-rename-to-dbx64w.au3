@@ -65,10 +65,10 @@ Global $SessionSek = 0 ; measure this session in seconds
 ;///////////////////////////////////////--CONFIG--////////////////////////////////////////////////////////////////////////////////
 ;																																//
 ;										Important																				//
-$ComputerLag		= 0											;Increase this in steps of 400 if you have slow loading times	//
-$MoveDelay			= 0											;Increase this in steps of 100 if you have movement issues		//
+$ComputerLag		= 100										;Increase this in steps of 400 if you have slow loading times	//
+$MoveDelay			= 100											;Increase this in steps of 100 if you have movement issues		//
 $LootDelay			= 0											;Increase this in steps of 200 if you have looting issues		//
-$ImgDir				= "C:\D3\AutoIt\pics\"	;Location of the image folder									//
+$ImgDir				= "C:\D3\AutoIt\WD\pics\"	;Location of the image folder									//
 ;																																//
 ;									    Functions																				//
 $Repair				= True										;Orders the bot to repair when items are damaged				//
@@ -78,11 +78,11 @@ $HighGoldRadius		= True										;Set this to true if you have more than +18 gol
 ;																																//
 ;								   	  Miscellaneous																				//
 $Sounds				= True										;Enable pickup sounds											//
-$SoundsDir			= "C:\D3\AutoIt\sounds\"	;Location of the sounds folder									//
+$SoundsDir			= "C:\D3\AutoIt\WD\sounds\"	;Location of the sounds folder									//
 $ShowLootArea		= True										;Shows lootarea													//
 $ShowStatTooltip	= True										;Shows statistics from current session							//
 $SaveStats			= True										;Saves current statistics to a *.txt file						//
-$SaveStatsPath		= "C:\D3\AutoIt\logs\"	;Folder to save the statistics in								//
+$SaveStatsPath		= "C:\D3\AutoIt\WD\logs\"	;Folder to save the statistics in								//
 ;																																//
 ;									   Relogging																				//									
 $UseRelogging		= True										;Enable Relogging												//

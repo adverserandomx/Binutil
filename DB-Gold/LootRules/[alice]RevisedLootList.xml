@@ -100,15 +100,15 @@
 	</ItemRule>
 
 	<!-- Armor Rules -->
-	<ItemRule itemBaseType="Armor" description="Magic armor with GoldFind">
+	<ItemRule itemBaseType="Armor" description="Magic armor with Gold Find">
 		<StatRules>
-			<Rule stat="GoldFind" minValue="20" quality="Magic1" />
+			<Rule stat="GoldFind" minValue="18" quality="Magic1" />
 		</StatRules>
 	</ItemRule>
 
-	<ItemRule itemBaseType="Armor" description="Magic armor with MagicFind">
+	<ItemRule itemBaseType="Armor" description="Magic armor with Magic Find">
 		<StatRules>
-			<Rule stat="MagicFind" minValue="20" quality="Magic1" />
+			<Rule stat="MagicFind" minValue="18" quality="Magic1" />
 		</StatRules>
 	</ItemRule>
 
