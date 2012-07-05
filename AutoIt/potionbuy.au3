@@ -5,9 +5,9 @@ HotKeySet('{F11}', 'Terminate')
 While 1
 WinActivate('Diablo III')
 Pause()
-   for $i = 1 to 1000
+   for $i = 1 to 1
    MouseClick("right",414,230,2)
-   sleep(100)
+   ;sleep(100)
    next
 WEnd
 
