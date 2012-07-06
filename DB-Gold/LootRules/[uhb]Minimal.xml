@@ -16,13 +16,6 @@ Otherwise bot will just stand front of stash and do nothing.
 			</StatRules>
 		</ItemRule>
       
-      <!-- Pick up all magic+ items -->
-      <ItemRule>
-        <StatRules>
-          <Rule quality="Magic1" />
-        </StatRules>
-      </ItemRule>
-
       <!-- Pick up gold, at least in stacks of 50 -->
       <ItemRule itemName="Gold" stack="50" />
       
@@ -85,34 +78,7 @@ Otherwise bot will just stand front of stash and do nothing.
 	  <ItemRule itemName="*Tear" />
 	  <ItemRule itemName="*Hoof" />
 	  <ItemRule itemName="*Brimstone" />	
-	  
-      <!-- Keep rare items level 55 or more regardless of stats. -->    
-      <ItemRule description="Rare Items">
-        <StatRules>
-          <Rule quality="Rare4" stat="level" minValue="50" />
-        </StatRules>
-      </ItemRule>
-	  
-      <!-- Keep legendaries, regardless of stats. -->
-      <ItemRule ruleType="Keep" description="Legendary">
-        <StatRules>
-          <Rule quality="Legendary" />
-        </StatRules>
-      </ItemRule>
-	  
-	  <!-- Keep magic items with gold find. -->    
-	  <ItemRule description="Gold Find Items">
-        <StatRules>
-		  <Rule quality="Magic1" stat="GoldFind" minValue="20" />
-        </StatRules>
-      </ItemRule>
-	  <!-- Keep magic items with magic find. -->    
-	  <ItemRule description="Magic Find Items">
-        <StatRules>
-		  <Rule quality="Magic1" stat="MagicFind" minValue="20" />
-        </StatRules>
-      </ItemRule>
-	  
+	  	  
       <!-- Keep legendaries, regardless of stats. -->
       <ItemRule ruleType="Keep" description="Legendary">
         <StatRules>
