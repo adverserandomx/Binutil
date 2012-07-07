@@ -16,6 +16,7 @@ HotKeySet("{F5}", "RequestEnd")
 
 Global $ActionQueued = false
 $title = "Diablo III - WizTank"
+$win_title = "Diablo III"; English
 
 Global $ActionQueued1 = false
 Global $ActionQueued2 = false
@@ -28,10 +29,10 @@ func WickedWindSpam()
 		
 		MouseClick("Left") ;ww
 		
-		Send("{1}")
-		Send("{2}")
-		;Send("{4}")
-		Send("{3}")
+		Send("{1}")	;nova
+		Send("{2}")	;shell
+		;Send("{4}");eb
+		;Send("{3}");misc	
 				
 		Send("{SHIFTUP}")
 		
@@ -51,7 +52,7 @@ func EBSpam()
 		Send("{1}") ;nova
 		Send("{2}") ;shell
 		Send("{4}") ;eb
-		Send("{3}") ;timewarp	
+		;Send("{3}") ;misc	
 		
 		
 		Send("{SHIFTUP}")
@@ -91,9 +92,11 @@ wend
 #ce
 
 While 1
-  If _IsPressed('31') = 1 AND _IsPressed('20') = 1 Then WickedWindSpam()
-  If _IsPressed('34') = 1 AND _IsPressed('20') = 1 Then EBSpam()
-  Sleep(1)
+	if WinActive($win_title) then
+		If _IsPressed('20') = 1 AND _IsPressed('31') = 1 Then WickedWindSpam()
+		If _IsPressed('20') = 1 AND _IsPressed('34') = 1 Then EBSpam()
+		Sleep(1)
+	endif
 Wend
 
 Exit
