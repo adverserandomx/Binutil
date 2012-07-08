@@ -1,0 +1,79 @@
+<Profile>
+	<Name>Carguy's Ultimate Sarkoth v1.3c - 12ms</Name>
+	<GameParams quest="72221" step="35" act="A1" difficulty="Inferno" resumeFromSave="True" isPrivate="True" numGames="-1"  />
+	<Order>
+	<WriteReport />	
+
+	
+	<!--Vault 1-->
+	<UsePower x="1990.316" y="2623.536" z="29.94242" questId="1" powerId="111215" name="Vault 1" />
+	<MoveTo questId="1" x="1990.316" y="2623.536" z="29.94242" pathPrecision="3" />
+	
+	<!--Vault 2-->
+	<UsePower x="2004.32" y="2591.099" z="27.1" questId="1" powerId="111215" name="Vault 2"/>
+	<MoveTo questId="1" x="2004.32" y="2591.099" z="27.1" pathPrecision="3" />
+
+    <!--Vault 3 & caltrops-->
+	<UsePower x="2023.253" y="2560.245" z="27.1" questId="1" powerId="111215" name="Vault 3"/>
+	<MoveTo questId="1" x="2023.253" y="2560.245" z="27.1" pathPrecision="3" />
+    <UsePower x="2023.253" y="2560.245" z="27.1"  questId="1" powerId="129216 " name="Caltrops 1"/>
+		
+	<!--Vault 4-->
+	<UsePower x="2043.691" y="2536.558" z="27.1" questId="1" powerId="111215" name="Vault 4"/>
+	<MoveTo questId="1" x="2043.691" y="2536.558" z="27.1" pathPrecision="3" />
+	
+	<!-- Wait quick before logic-->
+	<WaitTimer questId="1" waitTime="50" />
+	
+  	<!-- Checking for cellar entrance-->
+	<If condition="ActorExistsAt(176007, 2059.629, 2478.667, 27.02374, 15)">
+	
+		<!-- Using Prep to recharge disc-->
+		<UsePower questId="1" powerId="129212" />
+			
+		<!--Vault 5-->
+		<UsePower x="2067.892" y="2513.031" z="27.1" questId="1" powerId="111215" name="Vault 5"/>
+		<MoveTo questId="1" x="2067.892" y="2513.031" z="27.1" pathPrecision="3" />
+		
+		<!--Vault 6-->	
+		<UsePower x="2081.112" y="2483.552" z="27.1" questId="1" powerId="111215" name="Vault 6"/>
+		<MoveTo questId="1" x="2081.112" y="2483.552" z="27.1" pathPrecision="3" />
+		
+		<!--Vault 7-->
+		<UsePower x="2060.601" y="2476.781" z="29.02334" questId="1" powerId="111215" name="Vault 7"/>
+		<MoveTo questId="1" x="2060.601" y="2476.781" z="29.02334" pathPrecision="3" />
+
+		<!-- Interact with cellar -->
+		<UseObject questId="1" x="2075.159" y="2498.607" z="27.1" actorId="176007" isPortal="True" destinationWorldId="106746" />
+		
+		<!-- Wait quick before Vault-->
+		<WaitTimer questId="1" waitTime="50" />
+		
+		<!-- Inside Vault (1)-->
+		<UsePower x="107.8864" y="159.6786" z="0.1000003"  questId="1" powerId="111215"/>
+		<MoveTo questId="1" x="120.093" y="151.7398" z="0.1000006" pathPrecision="3"/>
+		
+		<!-- Summon ferrets -->
+		<UsePower questId="1" powerId="133695" />
+		
+		<!-- Inside Vault (2)-->
+		<UsePower x="118.1173" y="116.9228" z="0.1000003"  questId="1" powerId="111215" />
+		<MoveTo questId="1" x="118.1173" y="116.9228" z="0.1000003" pathPrecision="3"/>
+		
+		<!-- After Sarkoth kill,Last move to grab gold before port -->
+		<MoveTo questId="1" x="119.1644" y="108.9403" z="0.1000006" pathPrecision="3"/>
+		
+	</If>
+	
+	<!-- Using Prep to recharge disc-->
+	<UsePower questId="1" powerId="129212" />
+		
+	<!--Caltrops to hopefully save some deaths while porting-->
+	<UsePower x="2043.691" y="2536.558" z="27.1"  questId="1" powerId="129216 " name="Caltrops 2"/>
+	<UseTownPortal questId="1" />
+	<LeaveGame reason="Run is OVARY!" />
+	
+	</Order>
+	<KillMonsters>False</KillMonsters>
+	<PickupLoot>False</PickupLoot>
+</Profile>

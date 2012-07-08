@@ -15,12 +15,14 @@ Otherwise bot will just stand front of stash and do nothing.
 				<Rule quality="Legendary" />
 			</StatRules>
 		</ItemRule>
+		
+		<ItemRule itemName="*Health Globe*" stack="50" />
       
       <!-- Pick up gold, at least in stacks of 50 -->
       <ItemRule itemName="Gold" stack="50" />
       
       <!-- Pick up all pages and tomes, blacksmithing/jewelcrafting -->
-      <ItemRule itemName="Page of*" stack="1" />
+      <!--<ItemRule itemName="Page of*" stack="1" />-->
       <ItemRule itemName="Tome of Secrets" stack="1" />
       
 	  <!-- Pick up designs and plans, blacksmithing/jewelcrafting -->

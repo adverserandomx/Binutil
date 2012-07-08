@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<ItemRules name="No Trash" useRoundedValues="true">
+  <!-- The order in which item rules are evaluated. Typically, this is fine for almost all rule sets. 
+  However, you may want to switch things around sometimes if you want to force-sell things that may match keep rules. -->
+  <Priority priority1="Keep" priority2="Salvage" priority3="Sell" />
+
+  <Categories>
+    <Category ruleType="PickUp">
+      
+      <!-- Pick up all magic+ items -->
+
+      <!-- Pick up gold, at least in stacks of 100 -->
+      <ItemRule itemName="Gold" stack="100" />      
+
+    </Category>
+
+    <Category ruleType="Keep">
+
+      <!-- Keep legendaries, regardless of stats. -->
+      <ItemRule ruleType="Keep" description="Legendary items!">
+        <StatRules>
+          <Rule quality="Legendary" />
+        </StatRules>
+      </ItemRule>
+      
+    </Category>
+
+    <Category ruleType="Sell">
+      <ItemRule description="Sell Everything">
+        <StatRules>
+          <Rule quality="Magic1" />
+        </StatRules>
+      </ItemRule>
+    </Category>
+
+  </Categories>
+
+  <!-- Available Stats:
+  
+            Intelligence
+            Strength
+            Vitality
+            Dexterity
+            Armor - this is the "base" armor of an item.
+            ArmorBonus - this is the "bonus" armor on the item. Represented in the tooltip as "+x Armor"
+            ArmorTotal - this is the "total" armor for the item.
+
+            // Damage % Increases - These are typically things like 3% Fire Damage - typically found on Wizard/WD items
+            FireDamagePercent
+            ColdDamagePercent
+            LightningDamagePercent
+            PoisonDamagePercent
+            ArcaneDamagePercent
+            HolyDamagePercent
+
+            MinDamage - this is the smaller of the 2 when the tooltip states "+5-10 damage" or similar.
+            MaxDamage - the max value of the above
+            DPS - weapon DPS. This is the DPS as shown in the tooltip.
+
+            GoldFind
+            MagicFind 
+
+            // Increase modifiers
+            AttackSpeedPercent
+
+            // Weapon
+            WeaponAttacksPerSecond
+            WeaponMinDamage
+            WeaponMaxDamage
+
+            // Misc
+            MovementSpeed - run speed %
+            HealthGlobeBonus
+            HealthPerSecond
+            LifePercent
+            Level - item level. DOES NOT MATCH IN-GAME ITEM LEVEL REQUIREMENT!
+
+            // Resists
+            ResistAll
+            ResistArcane
+            ResistCold
+            ResistPhysical
+            ResistLightning
+            ResistFire
+            ResistPoison
+            ResistHoly
+
+            Thorns
+
+            DamageReductionPhysicalPercent
+            
+            Sockets
+   -->
+</ItemRules>
