@@ -3,6 +3,7 @@ using System.Linq;
 using Belphegor.Composites;
 using Belphegor.Dynamics;
 using Belphegor.Helpers;
+using Belphegor.Settings;
 using Zeta;
 using Zeta.Common.Helpers;
 using Zeta.CommonBot;
@@ -21,8 +22,8 @@ namespace Belphegor.Routines
             return
             new PrioritySelector(
                 Common.CreateWaitForAttack(),
-                Spell.Buff(SNOPower.Witchdoctor_Gargantuan, extra => !Ted),
-                Spell.Buff(SNOPower.Witchdoctor_SummonZombieDog, extra => zombieDogs < 3)
+                Spell.Buff(SNOPower.Witchdoctor_Gargantuan, extra => !Unit.HasPet("Gargantuan")),
+                Spell.Buff(SNOPower.Witchdoctor_SummonZombieDog, extra => Unit.PetCount("WD_ZombieDog") < 3)
             );
         }
 
@@ -44,24 +45,20 @@ namespace Belphegor.Routines
                     //Movement.MoveToLineOfSight(ctx => (DiaUnit)ctx),
 
                     new SelfCast(SNOPower.Witchdoctor_SpiritWalk, extra => ZetaDia.Me.HitpointsCurrentPct <= 0.4),
-                    new SelfCast(SNOPower.Witchdoctor_Sacrifice, extra => zombieDogs > 1 && ZetaDia.Me.HitpointsCurrentPct <= 0.4),
+                    new SelfCast(SNOPower.Witchdoctor_Sacrifice, extra => Unit.PetCount("WD_ZombieDog") > 1 && ZetaDia.Me.HitpointsCurrentPct <= BelphegorSettings.Instance.WitchDoctor.SacrificeHp),
 
 					//added to keep faster run walk up and/or vision quest up
 					new SelfCast(SNOPower.Witchdoctor_Horrify),
-					//Spell.Buff(SNOPower.Witchdoctor_SummonZombieDog),					
-					
                      //Pets
-                    Spell.Buff(SNOPower.Witchdoctor_Gargantuan, extra => !Ted),
-                    Spell.Buff(SNOPower.Witchdoctor_SummonZombieDog, extra => zombieDogs < 3),
+                    Spell.Buff(SNOPower.Witchdoctor_Gargantuan, extra => !Unit.HasPet("Gargantuan")),
+                    Spell.Buff(SNOPower.Witchdoctor_SummonZombieDog, extra => Unit.PetCount("WD_ZombieDog") < 3),
                     new SelfCast(SNOPower.Witchdoctor_Hex),
-					
-					
 
                     new SelfCast(SNOPower.Witchdoctor_SoulHarvest, 
                         ctx => Clusters.GetClusterCount(ZetaDia.Me, CombatTargeting.Instance.LastObjects, ClusterType.Radius, 16f) >= 2
-                            || (Common.IsElite((DiaUnit)ctx) && ((DiaUnit)ctx).Distance < 16f)),
-                    new SelfCast(SNOPower.Witchdoctor_BigBadVoodoo, ctx => nearbycount >= 4 || Common.IsElite((DiaUnit)ctx)),
-                    new SelfCast(SNOPower.Witchdoctor_FetishArmy, ctx => nearbycount >= 4 || Common.IsElite((DiaUnit)ctx)),
+                            || (Unit.IsElite((DiaUnit)ctx, 16f))),
+                    new SelfCast(SNOPower.Witchdoctor_BigBadVoodoo, ctx => nearbycount >= 4 || Unit.IsElite((DiaUnit)ctx)),
+                    new SelfCast(SNOPower.Witchdoctor_FetishArmy, ctx => nearbycount >= 4 || Unit.IsElite((DiaUnit)ctx)),
                     new SelfCast(SNOPower.Witchdoctor_Horrify, extra => nearbycount >= 4),
                     new CastOnUnit(SNOPower.Witchdoctor_MassConfusion, ctx => ((DiaUnit)ctx).ACDGuid, extra => nearbycount >= 3),
 
@@ -78,7 +75,7 @@ namespace Belphegor.Routines
                     new CastAtLocation(SNOPower.Witchdoctor_WallOfZombies, ctx => ((DiaUnit)ctx).Position, extra => ClusterCount >= 3),
 
                     new Decorator(ctx => _locustSwarmTimer.IsFinished && PowerManager.CanCast(SNOPower.Witchdoctor_Locust_Swarm) && ((DiaUnit)ctx).Distance < 16 &&
-                        (Clusters.GetClusterCount((DiaUnit)ctx, CombatTargeting.Instance.LastObjects, ClusterType.Radius, 20) >= 3 || Common.IsElite((DiaUnit)ctx)),
+                        (Clusters.GetClusterCount((DiaUnit)ctx, CombatTargeting.Instance.LastObjects, ClusterType.Radius, 20) >= 3 || Unit.IsElite((DiaUnit)ctx)),
                         new Sequence(
                             new CastOnUnit(SNOPower.Witchdoctor_Locust_Swarm, ctx => ((DiaUnit)ctx).ACDGuid),
                             new Action(ret => _locustSwarmTimer.Reset())
@@ -134,37 +131,6 @@ namespace Belphegor.Routines
         }
 
         private static int nearbycount { get { return Clusters.GetClusterCount(ZetaDia.Me, CombatTargeting.Instance.LastObjects, ClusterType.Radius, 40f); } }
-
-        private static int zombieDogs
-        {
-            get
-            {
-                    int dynId = ZetaDia.Me.CommonData.DynamicId;
-                    var summoned = ZetaDia.Actors.GetActorsOfType<DiaUnit>().Count(u => u.SummonedByACDId == dynId && u.Name.StartsWith("WD_ZombieDog"));
-                    return summoned;
-            }
-        }
-
-
-        /// <summary>
-        /// He is ted, for he is awesome.
-        /// </summary>
-        public static bool Ted
-        {
-            get
-            {
-                int dynId = ZetaDia.Me.CommonData.DynamicId;
-				try
-				{
-					var summoned = ZetaDia.Actors.GetActorsOfType<DiaUnit>().FirstOrDefault(u => u.SummonedByACDId == dynId && u.Name.StartsWith("WD_Gargantuan"));
-					return summoned != null && summoned.CommonData != null;
-				}
-				catch (Exception)
-				{
-				}
-				return false;
-            }
-        }
 
 
         public static void WitchDoctorOnLevelUp(object sender, EventArgs e)
