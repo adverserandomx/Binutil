@@ -10,7 +10,7 @@ _Singleton("WizTank5")
 Global $Paused
 Global $Toggle
 ;HotKeySet("{1}", "WickedWindSpam")
-;HotKeySet("{4}", "EBSpam")
+;HotKeySet("{3}", "EBSpam")
 HotKeySet("{F5}", "RequestEnd")
 ;HotKeySet("{F4}", "TogglePause")
 
@@ -51,7 +51,7 @@ func EBSpam()
 		
 		Send("{1}") ;nova
 		Send("{2}") ;shell
-		Send("{4}") ;eb
+		Send("{3}") ;eb
 		;Send("{3}") ;misc	
 		
 		
@@ -94,7 +94,7 @@ wend
 While 1
 	if WinActive($win_title) then
 		If _IsPressed('20') = 1 AND _IsPressed('31') = 1 Then WickedWindSpam()
-		If _IsPressed('20') = 1 AND _IsPressed('34') = 1 Then EBSpam()
+		If _IsPressed('20') = 1 AND _IsPressed('33') = 1 Then EBSpam()
 		Sleep(1)
 	endif
 Wend
