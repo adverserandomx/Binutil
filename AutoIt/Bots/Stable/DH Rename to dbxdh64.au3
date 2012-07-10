@@ -66,7 +66,7 @@ Global $SessionSek = 0 ; measure this session in seconds
 ;																																//
 ;										Important																				//
 $ComputerLag		= 0											;Increase this in steps of 400 if you have slow loading times	//
-$MoveDelay			= 100												;Increase this in steps of 100 if you have movement issues		//
+$MoveDelay			= 0												;Increase this in steps of 100 if you have movement issues		//
 $LootDelay			= 0											;Increase this in steps of 200 if you have looting issues		//
 $ImgDir				= "C:\d3\AutoIt\DH\pics\"	;Location of the image folder									//
 ;																																//
@@ -74,7 +74,7 @@ $ImgDir				= "C:\d3\AutoIt\DH\pics\"	;Location of the image folder									//
 $Repair				= True										;Orders the bot to repair when items are damaged				//
 $Sell				= True										;Orders the bot to sell magic items when bag is full			//
 $UseStash			= True										;Orders the bot to put gems and rare items into the stash		//
-$HighGoldRadius		= False										;Set this to true if you have more than +18 gold radius			//
+$HighGoldRadius		= True										;Set this to true if you have more than +18 gold radius			//
 ;																																//
 ;								   	  Miscellaneous																				//
 $Sounds				= True										;Enable pickup sounds											//
@@ -396,11 +396,13 @@ While 1
 		 Send("{LSHIFT down}")
 		 Send("{2}"); sentry turrent
 		 Sleep(250)
+		 Send("{1}")
+		 Sleep(250)
 		 Send("{LSHIFT up}")
 		 
-		 MouseDown('RIGHT')
-		 Sleep(100)
-		 MouseUp('RIGHT')
+		 ;MouseDown('RIGHT')
+		 ;Sleep(100)
+		 ;MouseUp('RIGHT')
 		 Sleep(400 + $Computerlag)
 		 $Closed+=1
 		 $SuccessfulSession = False
@@ -416,28 +418,28 @@ While 1
 	  If CheckForDeath() Then
 		 ContinueLoop
 	  EndIf
-	   
+	  
+	  ;Sleep(250 + $Computerlag)
 	  Move($MoveInCellar1[0], $MoveInCellar1[1])
 	  Sleep(1100 + $MoveDelay)
 	  Move($MoveInCellar2[0], $MoveInCellar2[1])
-	  Sleep(10 + $MoveDelay)
-	  MouseMove($MonsterLocation[0],$MonsterLocation[1], 5)
-	  Sleep(150 + $Computerlag)
+	  Sleep(300 + $MoveDelay)
+	  ;MouseMove($MonsterLocation[0],$MonsterLocation[1], 5)
+	  ;Sleep(150 + $Computerlag)
 
-	  Send("{3}") ;companion
-	  ;Sleep(200 + $Computerlag)
-	  ;MouseClick('RIGHT')
-	  Sleep(250 + $Computerlag)
 	  Send("{2}")
 	  Sleep(250 + $Computerlag)
 	  
-	  MouseMove(432, 259, 1)
-	  Send("{1}") ; cluster arrow
-	  Sleep(250)
-	  Send("{1}") ; cluster arrow
-	  Sleep(250)
-	  Send("{1}") ; cluster arrow
-	  Sleep(250)
+	  MouseMove(616, 260, 1)
+	  MouseClick('RIGHT') ;cluster arrow
+	  Sleep(500)
+	  MouseClick('RIGHT') ;cluster arrow
+	  Sleep(500)
+   MouseClick('RIGHT') ;cluster arrow
+	  Sleep(500)
+	  Send("{3}") ;companion
+	  Sleep(400 + $Computerlag)
+
 	  
 	  Dim $clusterArrowWait = 0
 	  While 1
@@ -458,9 +460,9 @@ While 1
 			$clusterArrowWait = $clusterArrowWait + 1
 		 Next
 		 if $clusterArrowWait > 50 Then
-			  MouseMove(432, 259, 1)
-			Send("{1}") ; cluster arrow
-			Sleep(250)
+			MouseMove(432, 259, 1)
+			MouseClick('RIGHT') ; cluster arrow
+			Sleep(500)
 			$clusterArrowWait = 0
 		 EndIf
 	  WEnd
