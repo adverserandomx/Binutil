@@ -13,8 +13,9 @@ _Singleton("d3WizardHelper")
 ;
 Global $EnableSpamKeys = True ;enable to spam 1,2,3
 Global $PauseButton = "{F3}"
-Global $SetupButton = "{F4}"
-Global $EndButton = "{F5}"
+Global $SetupButton = "{F8}"
+Global $EndButton = "{F9}"
+Global $SelfSpamButton = "{5}"
 Global $sleepTimeForCoordDetection = 2000 ;set the amount of time you want to wait during MF setup between each item coordinate
 ;
 ;
@@ -26,15 +27,24 @@ Global $win_title = "Diablo III"; English
 Global $win_title_ch = "?????III"; Chinese
 Global $Paused
 Global $Toggle
+Global $SelfSpam = false
 
 Global $ActionQueued = false
 Global $ActionQueued1 = false
 Global $ActionQueued2 = false
 
-
+;HotKeySet($SelfSpamButton, "ToggleSelfSpam")
 HotKeySet($PauseButton, "TogglePause")
 HotKeySet($SetupButton, "Setup")
 HotKeySet($EndButton, "RequestEnd") 
+
+func ToggleSelfSpam()
+	if $SelfSpam == true then
+		$SelfSpam = false
+	else
+		$SelfSpam = true
+	endif
+endfunc
 
 ;---------------------------------------
 ; Values read from the Settings.ini file
@@ -86,12 +96,12 @@ func WickedWindSpam()
 		
 		Send("{1}")	;nova
 		Send("{2}")	;shell
-		;Send("{4}");eb
-		;Send("{3}");misc	
+		;Send("{3}");eb
+		Send("{4}");misc	
 				
 		Send("{SHIFTUP}")
 		
-		Sleep(250)
+		
 	  $ActionQueued1 = False
    EndIf      
 EndFunc
@@ -106,13 +116,12 @@ func EBSpam()
 		
 		Send("{1}") ;nova
 		Send("{2}") ;shell
-		Send("{3}") ;eb
-		;Send("{3}") ;misc	
-		
+		Send("{3}") ;eb	
+		Send("{4}") ;misc
 		
 		Send("{SHIFTUP}")
 		
-		Sleep(250)
+		
 	  $ActionQueued2 = False
    EndIf      
 EndFunc
@@ -318,8 +327,10 @@ endfunc
 while 1
    if WinActive($win_title) or WinActive($win_title_ch) then
 	  if $EnableSpamKeys And NOT $Paused Then
-		 If _IsPressed('20') = 1 AND _IsPressed('31') = 1 Then WickedWindSpam()
-		 If _IsPressed('20') = 1 AND _IsPressed('33') = 1 Then EBSpam()
+		If _IsPressed('35') = 1 Then $SelfSpam = true
+		If _IsPressed('36') = 1 Then $SelfSpam = false
+		 If _IsPressed('31') = 1 AND _IsPressed('20') = 1 Then WickedWindSpam()
+		 If (_IsPressed('34') = 1 AND _IsPressed('20') = 1) Or $SelfSpam == true Then EBSpam()
 	  endif
 	  HotKeySet($Button, "SwitchMFGear")
 	  HotKeySet($PauseButton, "TogglePause")
@@ -331,6 +342,7 @@ while 1
 	  HotKeySet($SetupButton)
 	  HotKeySet($EndButton) 
    endif
+   Sleep(250)
 wend
 
 #cs
