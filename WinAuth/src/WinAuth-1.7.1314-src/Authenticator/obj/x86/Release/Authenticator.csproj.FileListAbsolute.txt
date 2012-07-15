@@ -1,0 +1,8 @@
+C:\Users\allen\Downloads\WinAuth-1.7.1314-src\WinAuth-1.7.1314-src\Authenticator\bin\Release\Authenticator.dll
+C:\Users\allen\Downloads\WinAuth-1.7.1314-src\WinAuth-1.7.1314-src\Authenticator\bin\Release\Authenticator.pdb
+C:\Users\allen\Downloads\WinAuth-1.7.1314-src\WinAuth-1.7.1314-src\Authenticator\bin\Release\BouncyCastle.Crypto.dll
+C:\Users\allen\Downloads\WinAuth-1.7.1314-src\WinAuth-1.7.1314-src\Authenticator\bin\Release\nunit.framework.dll
+C:\Users\allen\Downloads\WinAuth-1.7.1314-src\WinAuth-1.7.1314-src\Authenticator\bin\Release\nunit.framework.xml
+C:\Users\allen\Downloads\WinAuth-1.7.1314-src\WinAuth-1.7.1314-src\Authenticator\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\allen\Downloads\WinAuth-1.7.1314-src\WinAuth-1.7.1314-src\Authenticator\obj\x86\Release\Authenticator.dll
+C:\Users\allen\Downloads\WinAuth-1.7.1314-src\WinAuth-1.7.1314-src\Authenticator\obj\x86\Release\Authenticator.pdb
