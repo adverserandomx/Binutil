@@ -1,0 +1,48 @@
+
+<Profile>
+
+  <Name>V 1.2 The Core of  Arreat NightMare - By Lewis</Name>
+  <GameParams quest="87700" step="-1" act="A3" difficulty="Nightmare" resumeFromSave="True" isPrivate="True" numGames="-1"  />
+  <Order>
+	<WriteReport />
+
+<!-- Grab Checkpoint From Town -->
+    <If condition="Me.IsInTown">
+        <UseWaypoint questId="1" x="402.5403" y="414.342" z="1.5338" levelArea="1999503360" actorId="6442 " waypointNumber="10" />
+		<MoveTo questId="1" x="1140.684" y="731.071" z="0.1000002" name="0" />
+		<WaitTimer WaitTime="0" />
+		<MoveTo questId="1" x="780.8392" y="615.3609" z="0.1000229" name="1" />
+		<WaitTimer WaitTime="0" />
+		<MoveTo questId="1" x="735.1879" y="547.0051" z="0.1000168" name="2" />
+		<WaitTimer WaitTime="0" />
+		<MoveTo questId="1" x="547.4075" y="550.043" z="0.1000227" name="3" />
+		<WaitTimer WaitTime="0" />
+		<MoveTo questId="1" x="548.5098" y="624.3898" z="0.1000153"  name="4" />
+		<WaitTimer WaitTime="0" />
+		<MoveTo questId="1" x="205.4547" y="721.572" z="-36.49999" name="5" />
+		<WaitTimer WaitTime="5000"  />
+		<LeaveGame reason="I got the checkpoint." />
+	</If> 
+    
+	<!-- Start From Boss Azmadon Checkpoint -->
+	<MoveTo questId="1" x="479.2201" y="722.1451" z="0.1000117" pathPrecision="50" name ="2" />
+	<WaitTimer WaitTime="0" />
+	<MoveTo questId="1" x="566.4709" y="561.4996" z="0.09983606" pathPrecision="50" name ="3" />
+	<WaitTimer WaitTime="0" />
+	<MoveTo questId="1" x="707.9568" y="543.975" z="0.1000153" pathPrecision="50" name ="4" />
+	<WaitTimer WaitTime="0" />
+	<MoveTo questId="1" x="771.9807" y="607.5658" z="0.1000227" pathPrecision="50" name ="5" />
+	<WaitTimer WaitTime="0" />
+	<MoveTo questId="1" x="932.6039" y="727.6296" z="0.7776505" pathPrecision="50" name="6" />
+	<WaitTimer Waittime="0" />
+	<MoveTo questId="1" x="1057.135" y="712.3816" z="0.1" pathPrecision="50" name="7" />
+	<WaitTimer Waittime="0" />	
+	<MoveTo questId="1" x="1115.994" y="722.6465" z="0.1000001" pathPrecision="50" name="8" />
+	<WaitTimer WaitTime="0" />
+	<UseWaypoint questId="1" x="1161.723" y="686.8927" z="0.1" actorId="6442 " waypointNumber="0" />
+    <LeaveGame reason="run is finished." />
+  </Order>
+  <KillMonsters>True</KillMonsters>
+  <PickupLoot>True</PickupLoot>
+ </Profile>
+ 

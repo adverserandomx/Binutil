@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Set your bot settings and allow at least one page to deposit looted items. 
+Otherwise bot will just stand front of stash and do nothing.
+-->
+<ItemRules name="Salvage and Lewt" useRoundedValues="false">
+
+  <Priority priority1="Keep" priority2="Salvage" priority3="Sell" />
+
+  <Categories>
+    <Category ruleType="PickUp">
+	
+		<ItemRule>
+			<StatRules>
+				<Rule quality="Legendary" />
+			</StatRules>
+		</ItemRule>
+		
+		<ItemRule itemName="*Health Globe*" stack="50" />
+      
+      <!-- Pick up gold, at least in stacks of 50 -->
+      <ItemRule itemName="Gold" stack="50" />
+      
+      <!-- Pick up all pages and tomes, blacksmithing/jewelcrafting -->
+      <!--<ItemRule itemName="Page of*" stack="1" />-->
+      <ItemRule itemName="Tome of Secrets" stack="1" />
+      
+	  <!-- Pick up designs and plans, blacksmithing/jewelcrafting -->
+      <ItemRule itemName="Plan:*" stack="1" />
+      <ItemRule itemName="Design:*" stack="1" />
+	  
+      <!-- Gems -->
+      <ItemRule itemName="*Flawless Square Emerald*" stack="1" />
+	  <!--<ItemRule itemName="*Flawless Square Topaz*" stack="1" />
+	  <ItemRule itemName="*Flawless Square Ruby*" stack="1" />-->
+
+      <!-- Mythic Health potions -->
+      <ItemRule itemName="Mythic Health Potion" stack="1" />
+    </Category>
+
+    <Category ruleType="Keep">
+	  <ItemRule itemName="Mythic Health Potion" description="the good potions"/>
+	  <!-- useful weapons & int gear -->
+	  <ItemRule itemBaseType="Weapon" twoHanded="true" description="High DPS 2h Weapons">
+        <StatRules>
+          <!-- Magic Weapons should have at least 1200 DPS -->
+          <Rule stat="DPS" minValue="1200" quality="Magic1" />
+          <!-- Rare weapons should have at least 1100 considering they provide extra stats most of the time. -->
+          <Rule stat="DPS" minValue="1100" quality="Rare4" />
+        </StatRules>
+      </ItemRule>
+
+      <ItemRule itemBaseType="Weapon" twoHanded="false" description="High DPS 1h Weapons">
+        <StatRules>
+          <Rule stat="DPS" minValue="1000" quality="Magic1" />
+          <Rule stat="DPS" minValue="900" quality="Rare4" />
+        </StatRules>
+      </ItemRule>
+
+      <ItemRule itemBaseType="Armor" description="Rare armor with Intelligence">
+        <StatRules>
+          <Rule stat="Intelligence" minValue="150" quality="Rare4" />
+        </StatRules>
+      </ItemRule>
+	  
+	  <ItemRule itemBaseType="Jewelry" description="Rare jewelry with Intelligence">
+        <StatRules>
+          <Rule stat="Intelligence" minValue="150" quality="Rare4" />
+        </StatRules>
+      </ItemRule>
+	
+	  <!-- Keep designs and plans, blacksmithing/jewelcrafting -->
+      <ItemRule itemName="Plan:*" />
+      <ItemRule itemName="Design:*" />
+	  
+	  <!-- Just in case keeps pages, tomes and salvage materials-->
+	  <ItemRule itemName="Page of*" />
+      <ItemRule itemName="Tome of Secrets" />
+	  <ItemRule itemName="*Essence" />	
+	  <ItemRule itemName="*Tear" />
+	  <ItemRule itemName="*Hoof" />
+	  <ItemRule itemName="*Brimstone" />	
+	  	  
+      <!-- Keep legendaries, regardless of stats. -->
+      <ItemRule ruleType="Keep" description="Legendary">
+        <StatRules>
+          <Rule quality="Legendary" />
+        </StatRules>
+      </ItemRule>
+	  	  
+    </Category>
+	
+	<!-- Salvages everything between level 59 and 60. -->
+    <Category ruleType="Salvage">
+	  <!-- Salvages jewelry level 59 -->
+	  
+	  <!--<ItemRule itemBaseType="Jewelry" description="Salvage Jewelry">
+        <StatRules>
+          <Rule quality="Magic1" stat="level" minValue="59" />
+        </StatRules>
+      </ItemRule>-->
+	  
+	  <!-- Salvages everything else level 60 -->
+      <!--<ItemRule description="Salvage Everything">
+        <StatRules>
+		  <Rule quality="Magic1" stat="level" minValue="60" />
+        </StatRules>
+      </ItemRule>-->
+    </Category>
+	
+	<!--Sells everything else -->
+    <Category ruleType="Sell">
+      <ItemRule description="Sell Everything">
+        <StatRules>
+          <Rule quality="Magic1" />
+        </StatRules>
+      </ItemRule>
+    </Category>
+  </Categories>
+</ItemRules>

@@ -1,0 +1,27 @@
+<Profile>
+
+  <Name>The Core of  Arreat Nightmare v1.4 - Written by Farix!  Tested and tuned with Nucleotides.</Name>
+  <GameParams quest="87700" step="-1" act="A3" difficulty="Nightmare" resumeFromSave="True" isPrivate="True" numGames="-1"  />
+  <Order>
+	<WriteReport />
+    
+	<!-- If you're starting in town, it will go down and grab WP then wait for Check Point to save to speed up the next games.-->
+    <If condition="Me.IsInTown">
+        <UseWaypoint questId="1" x="402.5403" y="414.342" z="1.5338" levelArea="1999503360" actorId="6442 " waypointNumber="10" />
+		<MoveTo questId="1" x="192.3557" y="718.9964" z="-43.14791"  name="Save checkpoint" />
+		<UseTownPortal questId="1" />
+		<LeaveGame reason="I have finished the run and grabbed the checkpoint." />
+	</If> 
+	<!-- If you are starting from being saved into Core of Arreat -->
+	<MoveTo questId="1" x="810.6706" y="657.5673" z="0.1000153" pathPrecision="10" name="Fucking Cannon" />
+	<UseWaypoint questId="1" x="1161.723" y="686.8927" z="0.1" actorId="6442 " waypointNumber="0" />  
+    <LeaveGame reason="I love the sound of money." />
+  </Order>
+  <KillMonsters>True</KillMonsters>
+  <PickupLoot>True</PickupLoot>
+ </Profile>
+ 
+ <!-- Version 1.4 - Published 6/13/2012 by Farix
+ Thanks to:
+ Ronso - for helping to tweak beginning waypoints and general pathing at end of core, near portal
+ Nucleotides - for the great idea to add a path precision! -->
