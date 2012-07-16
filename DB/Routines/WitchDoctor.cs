@@ -45,59 +45,60 @@ namespace Belphegor.Routines
                     //Movement.MoveToLineOfSight(ctx => (DiaUnit)ctx),
 
                     new SelfCast(SNOPower.Witchdoctor_SpiritWalk, extra => ZetaDia.Me.HitpointsCurrentPct <= 0.4),
-                    new SelfCast(SNOPower.Witchdoctor_Sacrifice, extra => Unit.PetCount("WD_ZombieDog") > 1 && ZetaDia.Me.HitpointsCurrentPct <= BelphegorSettings.Instance.WitchDoctor.SacrificeHp),
+                    //new SelfCast(SNOPower.Witchdoctor_Sacrifice, extra => Unit.PetCount("WD_ZombieDog") > 1 && ZetaDia.Me.HitpointsCurrentPct <= BelphegorSettings.Instance.WitchDoctor.SacrificeHp),
 
-					//added to keep faster run walk up and/or vision quest up
+                    //added to keep faster run walk up and/or vision quest up
 					new SelfCast(SNOPower.Witchdoctor_Horrify),
-                     //Pets
+					
+					//Pets
                     Spell.Buff(SNOPower.Witchdoctor_Gargantuan, extra => !Unit.HasPet("Gargantuan")),
                     Spell.Buff(SNOPower.Witchdoctor_SummonZombieDog, extra => Unit.PetCount("WD_ZombieDog") < 3),
-                    new SelfCast(SNOPower.Witchdoctor_Hex),
+                    //new SelfCast(SNOPower.Witchdoctor_Hex),
 
-                    new SelfCast(SNOPower.Witchdoctor_SoulHarvest, 
-                        ctx => Clusters.GetClusterCount(ZetaDia.Me, CombatTargeting.Instance.LastObjects, ClusterType.Radius, 16f) >= 2
-                            || (Unit.IsElite((DiaUnit)ctx, 16f))),
-                    new SelfCast(SNOPower.Witchdoctor_BigBadVoodoo, ctx => nearbycount >= 4 || Unit.IsElite((DiaUnit)ctx)),
-                    new SelfCast(SNOPower.Witchdoctor_FetishArmy, ctx => nearbycount >= 4 || Unit.IsElite((DiaUnit)ctx)),
+                    //new SelfCast(SNOPower.Witchdoctor_SoulHarvest, 
+                    //    ctx => Clusters.GetClusterCount(ZetaDia.Me, CombatTargeting.Instance.LastObjects, ClusterType.Radius, 16f) >= 2
+                    //        || (Unit.IsElite((DiaUnit)ctx, 16f))),
+                    //new SelfCast(SNOPower.Witchdoctor_BigBadVoodoo, ctx => nearbycount >= 4 || Unit.IsElite((DiaUnit)ctx)),
+                    //new SelfCast(SNOPower.Witchdoctor_FetishArmy, ctx => nearbycount >= 4 || Unit.IsElite((DiaUnit)ctx)),
                     new SelfCast(SNOPower.Witchdoctor_Horrify, extra => nearbycount >= 4),
-                    new CastOnUnit(SNOPower.Witchdoctor_MassConfusion, ctx => ((DiaUnit)ctx).ACDGuid, extra => nearbycount >= 3),
+                    //new CastOnUnit(SNOPower.Witchdoctor_MassConfusion, ctx => ((DiaUnit)ctx).ACDGuid, extra => nearbycount >= 3),
 
                     new CastOnUnit(SNOPower.Witchdoctor_GraspOfTheDead, ctx => ((DiaUnit)ctx).ACDGuid),
 
-                    new Decorator(ret => _acidTimer.IsFinished && PowerManager.CanCast(SNOPower.Witchdoctor_AcidCloud),
-                        new Sequence(
-                            new CastAtLocation(SNOPower.Witchdoctor_AcidCloud, ctx => ((DiaUnit)ctx).Position, 
-                                ctx => Clusters.GetClusterCount(((DiaUnit)ctx), CombatTargeting.Instance.LastObjects, ClusterType.Radius, 18f) >= 3),
-                            new Action(ret =>_acidTimer.Reset())
-                            )),
+                    //new Decorator(ret => _acidTimer.IsFinished && PowerManager.CanCast(SNOPower.Witchdoctor_AcidCloud),
+                    //    new Sequence(
+                    //        new CastAtLocation(SNOPower.Witchdoctor_AcidCloud, ctx => ((DiaUnit)ctx).Position, 
+                    //            ctx => Clusters.GetClusterCount(((DiaUnit)ctx), CombatTargeting.Instance.LastObjects, ClusterType.Radius, 18f) >= 3),
+                    //        new Action(ret =>_acidTimer.Reset())
+                    //        )),
 
-                    new CastAtLocation(SNOPower.Witchdoctor_Firebats, ctx => ((DiaUnit)ctx).Position, extra => ClusterCount >= 3),
-                    new CastAtLocation(SNOPower.Witchdoctor_WallOfZombies, ctx => ((DiaUnit)ctx).Position, extra => ClusterCount >= 3),
+                    //new CastAtLocation(SNOPower.Witchdoctor_Firebats, ctx => ((DiaUnit)ctx).Position, extra => ClusterCount >= 3),
+                    //new CastAtLocation(SNOPower.Witchdoctor_WallOfZombies, ctx => ((DiaUnit)ctx).Position, extra => ClusterCount >= 3),
 
-                    new Decorator(ctx => _locustSwarmTimer.IsFinished && PowerManager.CanCast(SNOPower.Witchdoctor_Locust_Swarm) && ((DiaUnit)ctx).Distance < 16 &&
-                        (Clusters.GetClusterCount((DiaUnit)ctx, CombatTargeting.Instance.LastObjects, ClusterType.Radius, 20) >= 3 || Unit.IsElite((DiaUnit)ctx)),
-                        new Sequence(
-                            new CastOnUnit(SNOPower.Witchdoctor_Locust_Swarm, ctx => ((DiaUnit)ctx).ACDGuid),
-                            new Action(ret => _locustSwarmTimer.Reset())
-                            )),
+                    //new Decorator(ctx => _locustSwarmTimer.IsFinished && PowerManager.CanCast(SNOPower.Witchdoctor_Locust_Swarm) && ((DiaUnit)ctx).Distance < 16 &&
+                    //    (Clusters.GetClusterCount((DiaUnit)ctx, CombatTargeting.Instance.LastObjects, ClusterType.Radius, 20) >= 3 || Unit.IsElite((DiaUnit)ctx)),
+                    //    new Sequence(
+                    //        new CastOnUnit(SNOPower.Witchdoctor_Locust_Swarm, ctx => ((DiaUnit)ctx).ACDGuid),
+                    //        new Action(ret => _locustSwarmTimer.Reset())
+                    //        )),
 
-                    new Decorator(ret => _hauntTimer.IsFinished && PowerManager.CanCast(SNOPower.Witchdoctor_Haunt),
-                        new Sequence(
-                            new CastOnUnit(SNOPower.Witchdoctor_Haunt, ctx => ((DiaUnit)ctx).ACDGuid),
-                            new Action(ret => _hauntTimer.Reset())
-                            )),
+                    //new Decorator(ret => _hauntTimer.IsFinished && PowerManager.CanCast(SNOPower.Witchdoctor_Haunt),
+                    //    new Sequence(
+                    //        new CastOnUnit(SNOPower.Witchdoctor_Haunt, ctx => ((DiaUnit)ctx).ACDGuid),
+                    //        new Action(ret => _hauntTimer.Reset())
+                    //        )),
 
 
 
                     //Other spells
-                    new CastOnUnit(SNOPower.Witchdoctor_SpiritBarrage, ctx => ((DiaUnit)ctx).ACDGuid),
-                    new CastOnUnit(SNOPower.Witchdoctor_ZombieCharger, ctx => ((DiaUnit)ctx).ACDGuid),
+                    //new CastOnUnit(SNOPower.Witchdoctor_SpiritBarrage, ctx => ((DiaUnit)ctx).ACDGuid),
+                    //new CastOnUnit(SNOPower.Witchdoctor_ZombieCharger, ctx => ((DiaUnit)ctx).ACDGuid),
 
                     //Primary
-                    new CastAtLocation(SNOPower.Witchdoctor_PlagueOfToads, ctx => ((DiaUnit)ctx).Position),
-                    new CastAtLocation(SNOPower.Witchdoctor_CorpseSpider, ctx => ((DiaUnit)ctx).Position),
-                    new CastOnUnit(SNOPower.Witchdoctor_Firebomb, ctx => ((DiaUnit)ctx).ACDGuid),
-                    new CastOnUnit(SNOPower.Witchdoctor_PoisonDart, ctx => ((DiaUnit)ctx).ACDGuid)
+                    //new CastAtLocation(SNOPower.Witchdoctor_PlagueOfToads, ctx => ((DiaUnit)ctx).Position),
+                    //new CastAtLocation(SNOPower.Witchdoctor_CorpseSpider, ctx => ((DiaUnit)ctx).Position),
+                    new CastOnUnit(SNOPower.Witchdoctor_Firebomb, ctx => ((DiaUnit)ctx).ACDGuid)
+					//,new CastOnUnit(SNOPower.Witchdoctor_PoisonDart, ctx => ((DiaUnit)ctx).ACDGuid)
                     )
                    ),
 
