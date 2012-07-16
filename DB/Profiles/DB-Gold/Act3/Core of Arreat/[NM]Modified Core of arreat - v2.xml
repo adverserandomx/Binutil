@@ -1,0 +1,80 @@
+<!-- 
+  ** This took quite a while, and is one of the first fully afk'able profiles out to farm the core.  
+      If you would be kind enough to donate anything at all to my paypal account
+	  please contact me on the forums via PM or Skype Terrorwrist2 for information**
+  
+  Steps before loading and running the profie with the bot.
+    * Change quest to "Act3 Heart of Sin, Kill Azmodan", Nightmare difficulty.
+    * Start Game
+	* Open Demonbuddy.exe and login, but do not start
+	   * Change Kill Radius to 40 (slightly larger than b
+	   * Change Loot Radius to 40 (About screensize)
+	* Choose Settings on the main tab
+	   * Select Generic as the combat class, if you have multiple configs
+	   * Change Break Object Radius to 40 (About screensize)
+	   * Change all necessary settings to run properly for your character.
+	* Load this Profile
+	* Start Demonbuddy
+    * Enjoy!
+  -->
+<Profile>
+
+  <Name>The Core of  Arreat NM- Written by Farix Modified by Unhb/flexkres</Name>
+  <GameParams quest="87700" step="-1" act="A3" difficulty="Nightmare" resumeFromSave="True" isPrivate="True" numGames="-1"  />
+  <Order>
+    <WaitTimer WaitTime="1" />
+	<!-- If you're starting in town, it will go down and grab WP then wait for Check Point to save to speed up the next games.-->
+    <If condition="Me.IsInTown">
+        <UseWaypoint questId="1" x="402.5403" y="414.342" z="1.5338" levelArea="1999503360" actorId="6442 " waypointNumber="10" />
+		<MoveTo questId="1" x="1140.684" y="731.071" z="0.1000002" name="Beginning next to waypoint" />
+		<WaitTimer WaitTime="0" />
+		<MoveTo questId="1" x="780.8392" y="615.3609" z="0.1000229" name="First Anti-Stuck checkpoint" />
+		<WaitTimer WaitTime="0" />
+		<MoveTo questId="1" x="735.1879" y="547.0051" z="0.1000168" name="Second Anti-Stuck checkpoint" />
+		<WaitTimer WaitTime="0" />
+		<MoveTo questId="1" x="547.4075" y="550.043" z="0.1000227" name="Third Anti-Stuck checkpoint" />
+		<WaitTimer WaitTime="0" />
+		<MoveTo questId="1" x="548.5098" y="624.3898" z="0.1000153"  name="Fourth Anti-Stuck checkpoint" />
+		<WaitTimer WaitTime="0" />
+		<MoveTo questId="1" x="205.4547" y="721.572" z="-36.49999" name="Final checkpoint" />
+		<WaitTimer WaitTime="5000"  />
+		<LeaveGame reason="I have finished the run and got the checkpoint." />
+	</If> 
+	<!-- If you are starting from being saved into Core of Arreat -->	
+	<MoveTo questId="1" x="612.7158" y="563.535" z="0.0998824" name="antistuck1" />
+	<MoveTo questId="1" x="903.712" y="725.3455" z="0.1000182" name="antistuck2" />
+	<MoveTo questId="1" x="1115.994" y="722.6465" z="0.1000001" name="Final Go To" />
+	<WaitTimer WaitTime="0" />
+	<UseWaypoint questId="1" x="1161.723" y="686.8927" z="0.1" actorId="6442 " waypointNumber="0" />
+<WriteReport />
+	<WaitTimer WaitTime="300" />
+    <LeaveGame reason="I have finished." />
+	<WaitTimer WaitTime="300" />
+  </Order>
+  <KillMonsters>True</KillMonsters>
+  <PickupLoot>True</PickupLoot>
+ </Profile>
+ 
+ <!--
+    Version 0.1 - Published 6/12/2012 by Farix
+	Known issues:
+	6/12/2012 - Leaves game the slow way on first runs, as of right now this is the work-around to UseTownPortal -> LeaveGame malfunction.
+	6/12/2012 - Goes to anti-stuck checkpoints then pauses for a second or three. I believe this to be a glitch with the bot coding and searching for objects to loot. Work-around is to deal with it.
+	Fixed:
+	6/12/2012 - Doesn't crash after initial completion of run, starting from in-town.
+    6/12/2012 - Leaves properly on run starting from inside the Core of Arreat level 3
+    6/12/2012 - No longer gets stuck in the lava. Either direction.
+	
+	Version 1 - Updated 6/12/2012 by Farix
+	
+	Added:
+	6/12/2012 - Added an extra waypoint into the "saved" run line, hopefully it should resolve a final stuck problem.
+	
+	Version 1.2 - Updated 6/12/2012 by Farix
+	
+	Added:
+	6/12/2012 - Added an extra anti-stuck waypoint into the "saved" run line, hopefully it should resolve a stuck problem.
+	
+	Version 1.3 - Updated 6/13/2012 by Farix
+	*Streamlined the saved path waypoints. Should increase GHP as well as prevent stucks.
+	-->
