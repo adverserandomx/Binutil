@@ -132,8 +132,7 @@ func EBSpam()
 		Send($NovaButton)	;nova
 		Send($DiamondSkinButton)	;shell
 		Send($ExplosiveBlastButton) ;eb	
-		ToolTip("UseMiscButton = " & $UseMiscButton)
-		Sleep(1000)
+		
 	    if $UseMiscButton == True Then
 	       Send($MiscButton) ;misc
 	    EndIf
