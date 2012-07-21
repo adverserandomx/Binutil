@@ -106,9 +106,10 @@ func EBSpam()
 		
 		Send("{1}") ;nova
 		Send("{2}") ;shell
+
+		;Send("{4}") ;misc	
+	    ;Sleep(100)
 		Send("{3}") ;eb
-		;Send("{3}") ;misc	
-		
 		
 		Send("{SHIFTUP}")
 		

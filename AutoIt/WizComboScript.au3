@@ -11,15 +11,52 @@ _Singleton("d3WizardHelper")
 ;---------------------------------------------------------------------
 ;
 ;
-Global $EnableSpamKeys = True ;enable to spam 1,2,3
-Global $PauseButton = "{F3}"
-Global $SetupButton = "{F8}"
-Global $EndButton = "{F9}"
-Global $SelfSpamButton = "{5}"
+;Global $EnableSpamKeys = True ;enable to spam 1,2,3
+;Global $PauseButton = "{F3}"
+;Global $SetupButton = "{F4}"
+;Global $EndButton = "{F5}"
+;Global $SelfSpamButton = "{5}"
 Global $sleepTimeForCoordDetection = 2000 ;set the amount of time you want to wait during MF setup between each item coordinate
 ;
 ;
 ;---------------------------------------------------------------------
+
+
+;---------------------------------------
+; Values read from the Settings.ini file
+;---------------------------------------
+func ReadSettings()
+   
+   Global $PauseButton = IniRead("Settings.ini", "Button", "PauseButton", "{F3}")
+   Global $SetupButton = IniRead("Settings.ini", "Button", "SetupButton", "{F4}")
+   Global $EndButton = IniRead("Settings.ini", "Button", "EndButton", "{F5}")
+   Global $SelfSpamButton = IniRead("Settings.ini", "Button", "EndButton", "{5}")
+   
+   Global $EnableSpamKeys = IniRead("Settings.ini", "Button", "EnableSpamKeys", true)
+
+   Global $MFButton = IniRead("Settings.ini", "Button", "SwitchMFButton", "!{0}"); alt+0 by default
+   Global $NovaButton = IniRead("Settings.ini", "Button", "NovaButton", "{1}")
+   Global $DiamondSkinButton = IniRead("Settings.ini", "Button", "DiamondSkinButton", "{2}")
+   Global $ExplosiveBlastButton = IniRead("Settings.ini", "Button", "ExplosiveBlastButton", "{3}")
+   Global $MiscButton = IniRead("Settings.ini", "Button", "MiscButton", "{4}")   
+   Global $UseMiscButton = IniRead("Settings.ini", "Button", "UseMiscButton", false)
+
+   Global $CloseAllButton = IniRead("Settings.ini", "CloseAllButton", "CloseAllButton", "{SPACE}")
+   Global $Inventory = IniRead("Settings.ini", "Inventory", "Inventory", "{i}")
+   Global $NumOfItems = IniRead("Settings.ini", "NumOfItems", "NumOfItems", "0")
+   Global $SwitchBothRings = IniRead("Settings.ini", "SwitchBothRings", "SwitchBothRings", true)
+
+   Global $upperBound = $NumOfItems
+   if $SwitchBothRings == "False" then
+    Else
+		$upperBound = $upperBound - 1
+		Global $SecRingCoords = IniReadSection("Settings.ini", "SecRingCoords")
+	endif
+	Global $Coords = IniReadSection("Settings.ini", "Coords")
+ endfunc
+ 
+;load INI settings - DON'T MOVE THIS FUNCTION CALL
+ReadSettings()    
 
 ;Don't mess with values below
 Global $title = "Diablo III - Wizard Combo Script"						
@@ -46,28 +83,7 @@ func ToggleSelfSpam()
 	endif
 endfunc
 
-;---------------------------------------
-; Values read from the Settings.ini file
-;---------------------------------------
-func ReadSettings()
-	Global $Button = IniRead("Settings.ini", "Button", "Button", "!{0}"); alt+0 by default
-	Global $CloseAllButton = IniRead("Settings.ini", "CloseAllButton", "CloseAllButton", "{SPACE}")
-	Global $Inventory = IniRead("Settings.ini", "Inventory", "Inventory", "{i}")
-	Global $NumOfItems = IniRead("Settings.ini", "NumOfItems", "NumOfItems", "0")
-	Global $SwitchBothRings = IniRead("Settings.ini", "SwitchBothRings", "SwitchBothRings", true)
 
-	Global $upperBound = $NumOfItems
-	if $SwitchBothRings == "False" then
-	Else
-		$upperBound = $upperBound - 1
-		Global $SecRingCoords = IniReadSection("Settings.ini", "SecRingCoords")
-	endif
-	Global $Coords = IniReadSection("Settings.ini", "Coords")
- endfunc
- 
-;load INI settings
-ReadSettings()    
- 
 ;---------------------------------------
 ; Window checks
 ;---------------------------------------
@@ -94,10 +110,9 @@ func WickedWindSpam()
 		
 		MouseClick("Left") ;ww
 		
-		Send("{1}")	;nova
-		Send("{2}")	;shell
-		;Send("{3}");eb
-		Send("{4}");misc	
+		Send($NovaButton)	;nova
+		Send($DiamondSkinButton)	;shell
+	
 				
 		Send("{SHIFTUP}")
 		
@@ -114,12 +129,17 @@ func EBSpam()
 		
 		MouseClick("Left") ;ww
 		
-		Send("{1}") ;nova
-		Send("{2}") ;shell
-		Send("{3}") ;eb	
-		Send("{4}") ;misc
+		Send($NovaButton)	;nova
+		Send($DiamondSkinButton)	;shell
+		Send($ExplosiveBlastButton) ;eb	
+		ToolTip("UseMiscButton = " & $UseMiscButton)
+		Sleep(1000)
+	    if $UseMiscButton == True Then
+	       Send($MiscButton) ;misc
+	    EndIf
 		
 		Send("{SHIFTUP}")
+		
 		
 		
 	  $ActionQueued2 = False
@@ -195,16 +215,21 @@ func RunMFSetup()
 	"Examples:" & @CRLF & _
 	"SHIFT+CTRL+K = +^K"& @CRLF & _
 	"ALT+4 = !4"& @CRLF & _
-	"K = K"
+	"K = K"& @CRLF & _
+	"Please check your settings.ini to change other button defaults"
 
+   
 	MsgBox(0, $title, $inGameInstructions)
+	
+	WriteDefaultIni()
+
 	$LButton = InputBox($title, "Enter which hotkey you want to use that'll toggle the gear swap." _
-	& @CRLF & $bindingInstructions, "" & $Button, "", 251, 250)
+	& @CRLF & $bindingInstructions, "" & $MFButton, "", 251, 250)
 	If $LButton <> "" then
 		IniWrite("Settings.ini", "Button", "Button", " " & $LButton)
-		$Button = $LButton
+		$MFButton = $LButton
 	Else
-		$Button = 1
+		$MFButton = 1
 		ErrorMsg()
 		IniWrite("Settings.ini", "Button", "Button", " 1")
 	endif
@@ -291,6 +316,23 @@ func RunMFSetup()
 
 endfunc
 
+Func WriteDefaultIni()
+   
+   Global $PauseButton = IniWrite("Settings.ini", "Button", "PauseButton", "{F3}")
+   Global $SetupButton = IniWrite("Settings.ini", "Button", "SetupButton", "{F4}")
+   Global $EndButton = IniWrite("Settings.ini", "Button", "EndButton", "{F5}")
+   Global $SelfSpamButton = IniWrite("Settings.ini", "Button", "EndButton", "{5}")
+   
+   Global $EnableSpamKeys = IniWrite("Settings.ini", "Button", "EnableSpamKeys", true)
+   Global $NovaButton = IniWrite("Settings.ini", "Button", "NovaButton", "{1}")
+   Global $DiamondSkinButton = IniWrite("Settings.ini", "Button", "DiamondSkinButton", "{2}")
+   Global $ExplosiveBlastButton = IniWrite("Settings.ini", "Button", "ExplosiveBlastButton", "{3}")
+   Global $MiscButton = IniWrite("Settings.ini", "Button", "MiscButton", "{4}")   
+   Global $UseMiscButton = IniWrite("Settings.ini", "Button", "UseMiscButton", false)
+   
+EndFunc
+
+
 ;---------------------------------------
 ; Helper functions
 ;---------------------------------------
@@ -308,11 +350,11 @@ func TogglePause()
 	while $Paused
 		sleep(100)
 		;disable switch MF gear button and setup keys
-		HotKeySet($Button) 
+		HotKeySet($MFButton) 
 		HotKeySet($SetupButton)
 		ToolTip($title & ' is Paused. Hit ' & $PauseButton & ' to resume.',0,0)
 	wend
-	HotKeySet($Button, "SwitchMFGear")
+	HotKeySet($MFButton, "SwitchMFGear")
 	HotKeySet($SetupButton, "Setup")
 	ToolTip("")
  endfunc
@@ -330,14 +372,14 @@ while 1
 		If _IsPressed('35') = 1 Then $SelfSpam = true
 		If _IsPressed('36') = 1 Then $SelfSpam = false
 		 If _IsPressed('31') = 1 AND _IsPressed('20') = 1 Then WickedWindSpam()
-		 If (_IsPressed('34') = 1 AND _IsPressed('20') = 1) Or $SelfSpam == true Then EBSpam()
+		 If (_IsPressed('33') = 1 AND _IsPressed('20') = 1) Or $SelfSpam == true Then EBSpam()
 	  endif
-	  HotKeySet($Button, "SwitchMFGear")
+	  HotKeySet($MFButton, "SwitchMFGear")
 	  HotKeySet($PauseButton, "TogglePause")
 	  HotKeySet($SetupButton, "Setup")
 	  HotKeySet($EndButton, "RequestEnd") 
    else ;when window is not active, disable all hotkeys
-	  HotKeySet($Button)
+	  HotKeySet($MFButton)
 	  HotKeySet($PauseButton)
 	  HotKeySet($SetupButton)
 	  HotKeySet($EndButton) 
