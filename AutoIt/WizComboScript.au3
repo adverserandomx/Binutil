@@ -21,6 +21,7 @@ Global $Paused
 Global $SelfSpam = false			; default value - set later
 Global $useExplosiveBlast = false	; default value - set later
 Global $ActionQueued = false		; default value - set later
+Global $switchingGear = False
 
 HotKeySet($PauseButton, "TogglePause")
 HotKeySet($SetupButton, "Setup")
@@ -151,7 +152,6 @@ EndFunc
 ;---------------------------------------
 ; SwitchMFGear
 ;---------------------------------------
-Global $switchingGear = False
 func SwitchMFGear()
 	if WinActive($win_title) or WinActive($win_title_ch) then
 	  If $switchingGear == True Then ;prevent spamming switch inventory key because of user panic
