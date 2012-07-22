@@ -23,6 +23,9 @@ Global $useExplosiveBlast = false	; default value - set later
 Global $ActionQueued = false		; default value - set later
 Global $switchingGear = False
 
+Global $UseAltAttack = false
+Global $UseAltAttackCounter = 0
+
 HotKeySet($PauseButton, "TogglePause")
 HotKeySet($SetupButton, "Setup")
 HotKeySet($EndButton, "RequestEnd") 
@@ -47,26 +50,31 @@ endif
 ; Main loop - for keycodes check bottom of script
 ;---------------------------------------
 while 1
-   if WinActive($win_title) or WinActive($win_title_ch) then
-	  if $EnableSpamKeys And NOT $Paused Then
-		If _IsPressed('35') = 1 Then $SelfSpam = true
-		If _IsPressed('36') = 1 Then $SelfSpam = false
-		 If _IsPressed('31') = 1 AND _IsPressed('20') = 1 Then WickedWindSpam()
-		 If (_IsPressed('33') = 1 AND _IsPressed('20') = 1) Or $SelfSpam == true Then EBSpam()
-	  endif
-	  HotKeySet($MFButton, "SwitchMFGear")
-	  HotKeySet($PauseButton, "TogglePause")
-	  HotKeySet($SetupButton, "Setup")
-	  HotKeySet($EndButton, "RequestEnd") 
-   else ;when window is not active, disable all hotkeys
-	  HotKeySet($MFButton)
-	  HotKeySet($PauseButton)
-	  HotKeySet($SetupButton)
-	  HotKeySet($EndButton) 
-   endif
-   Sleep(200)
+	if WinActive($win_title) or WinActive($win_title_ch) then
+		if $EnableSpamKeys And NOT $Paused Then
+			If _IsPressed('35') = 1 Then $SelfSpam = true
+			If _IsPressed('36') = 1 Then 
+				$SelfSpam = false
+				
+				;reset the alt attack info
+				$UseAltAttack = false
+				$UseAltAttackCounter = 0
+			Endif
+			If _IsPressed('31') = 1 AND _IsPressed('20') = 1 Then WickedWindSpam()
+			If (_IsPressed('33') = 1 AND _IsPressed('20') = 1) Or $SelfSpam == true Then EBSpam()
+		endif
+		HotKeySet($MFButton, "SwitchMFGear")
+		HotKeySet($PauseButton, "TogglePause")
+		HotKeySet($SetupButton, "Setup")
+		HotKeySet($EndButton, "RequestEnd") 
+	else ;when window is not active, disable all hotkeys
+		HotKeySet($MFButton)
+		HotKeySet($PauseButton)
+		HotKeySet($SetupButton)
+		HotKeySet($EndButton) 
+	endif
+	Sleep(200)
 wend
-
 
 ;---------------------------------------
 ; Values read from the Settings.ini file
@@ -86,6 +94,7 @@ func ReadSettings()
    Global $ExplosiveBlastButton = IniRead("Settings.ini", "Button", "ExplosiveBlastButton", "{3}")
    Global $MiscButton = IniRead("Settings.ini", "Button", "MiscButton", "{4}")   
    Global $UseMiscButton = IniRead("Settings.ini", "Button", "UseMiscButton", false)
+   Global $EnableAltPrimaryAttack = IniRead("Settings.ini", "Button", "EnableAltPrimaryAttack", false)   
 
    Global $CloseAllButton = IniRead("Settings.ini", "CloseAllButton", "CloseAllButton", "{SPACE}")
    Global $Inventory = IniRead("Settings.ini", "Inventory", "Inventory", "{i}")
@@ -104,6 +113,24 @@ func ReadSettings()
 ;---------------------------------------
 ; Wiz Tank functions 
 ;---------------------------------------
+func PrimaryAttack()
+	if ($EnableAltPrimaryAttack == true) then
+		$UseAltAttackCounter = $UseAltAttackCounter + 1
+		if ($UseAltAttackCounter >= 16) then
+			$UseAltAttackCounter = 0
+			$UseAltAttack = Not $UseAltAttack
+		endif
+
+		if ($UseAltAttack) then
+			Send($MiscButton) ;misc
+		else
+			MouseClick("Left") ;ww		
+		endif
+	else
+		MouseClick("Left") ;ww
+	endif
+endfunc
+
 func SpamKeys()
 	; this version tries to get more nova/diamond skin into the rotation
 	if $ActionQueued == false then
@@ -111,10 +138,10 @@ func SpamKeys()
 
 		Send("{SHIFTDOWN}")
 		
-		MouseClick("Left") ;ww		
+		PrimaryAttack()		
 		Send($NovaButton)
 		Send($DiamondSkinButton)
-		MouseClick("Left") ;ww
+		PrimaryAttack()
 		
 		if $useExplosiveBlast == True Then
 			Send($NovaButton)	;nova
@@ -122,7 +149,7 @@ func SpamKeys()
 			Send($ExplosiveBlastButton) ;eb	
 		EndIf
 		
-		if $UseMiscButton == True Then
+		if $UseMiscButton == True And $EnableAltPrimaryAttack == false Then
 			MouseClick("Left") ;ww
 			Send($NovaButton)	;nova
 			Send($MiscButton) ;misc
