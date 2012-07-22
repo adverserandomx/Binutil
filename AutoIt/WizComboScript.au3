@@ -9,18 +9,72 @@ _Singleton("d3WizardHelper")
 ;---------------------------------------------------------------------
 ; Globals - Change values here to your preferences
 ;---------------------------------------------------------------------
-;
-;
-;Global $EnableSpamKeys = True ;enable to spam 1,2,3
-;Global $PauseButton = "{F3}"
-;Global $SetupButton = "{F4}"
-;Global $EndButton = "{F5}"
-;Global $SelfSpamButton = "{5}"
 Global $sleepTimeForCoordDetection = 2000 ;set the amount of time you want to wait during MF setup between each item coordinate
-;
-;
-;---------------------------------------------------------------------
+;load INI settings - DON'T MOVE THIS FUNCTION CALL
+ReadSettings()
 
+;Don't mess with values below
+Global $title = "Diablo III - Wizard Combo Script"						
+Global $win_title = "Diablo III"; English
+Global $win_title_ch = "?????III"; Chinese
+Global $Paused
+Global $SelfSpam = false			; default value - set later
+Global $useExplosiveBlast = false	; default value - set later
+Global $ActionQueued = false		; default value - set later
+Global $switchingGear = False
+
+Global $UseAltAttack = false
+Global $UseAltAttackCounter = 0
+
+HotKeySet($PauseButton, "TogglePause")
+HotKeySet($SetupButton, "Setup")
+HotKeySet($EndButton, "RequestEnd") 
+
+;---------------------------------------
+; Window checks
+;---------------------------------------
+$win_exists = false
+if WinExists($win_title, "") then
+	$win_exists = true
+elseif WinExists($win_title_ch, "") then
+	$win_exists = true
+endif
+
+if not $win_exists then
+   MsgBox(0, $title, $win_title & " window must be open.")
+   Exit
+endif
+
+
+;---------------------------------------
+; Main loop - for keycodes check bottom of script
+;---------------------------------------
+while 1
+	if WinActive($win_title) or WinActive($win_title_ch) then
+		if $EnableSpamKeys And NOT $Paused Then
+			If _IsPressed('35') = 1 Then $SelfSpam = true
+			If _IsPressed('36') = 1 Then 
+				$SelfSpam = false
+				
+				;reset the alt attack info
+				$UseAltAttack = false
+				$UseAltAttackCounter = 0
+			Endif
+			If _IsPressed('31') = 1 AND _IsPressed('20') = 1 Then WickedWindSpam()
+			If (_IsPressed('33') = 1 AND _IsPressed('20') = 1) Or $SelfSpam == true Then EBSpam()
+		endif
+		HotKeySet($MFButton, "SwitchMFGear")
+		HotKeySet($PauseButton, "TogglePause")
+		HotKeySet($SetupButton, "Setup")
+		HotKeySet($EndButton, "RequestEnd") 
+	else ;when window is not active, disable all hotkeys
+		HotKeySet($MFButton)
+		HotKeySet($PauseButton)
+		HotKeySet($SetupButton)
+		HotKeySet($EndButton) 
+	endif
+	Sleep(200)
+wend
 
 ;---------------------------------------
 ; Values read from the Settings.ini file
@@ -40,6 +94,7 @@ func ReadSettings()
    Global $ExplosiveBlastButton = IniRead("Settings.ini", "Button", "ExplosiveBlastButton", "{3}")
    Global $MiscButton = IniRead("Settings.ini", "Button", "MiscButton", "{4}")   
    Global $UseMiscButton = IniRead("Settings.ini", "Button", "UseMiscButton", false)
+   Global $EnableAltPrimaryAttack = IniRead("Settings.ini", "Button", "EnableAltPrimaryAttack", false)   
 
    Global $CloseAllButton = IniRead("Settings.ini", "CloseAllButton", "CloseAllButton", "{SPACE}")
    Global $Inventory = IniRead("Settings.ini", "Inventory", "Inventory", "{i}")
@@ -54,102 +109,76 @@ func ReadSettings()
 	endif
 	Global $Coords = IniReadSection("Settings.ini", "Coords")
  endfunc
- 
-;load INI settings - DON'T MOVE THIS FUNCTION CALL
-ReadSettings()    
-
-;Don't mess with values below
-Global $title = "Diablo III - Wizard Combo Script"						
-Global $win_title = "Diablo III"; English
-Global $win_title_ch = "?????III"; Chinese
-Global $Paused
-Global $Toggle
-Global $SelfSpam = false
-
-Global $ActionQueued = false
-Global $ActionQueued1 = false
-Global $ActionQueued2 = false
-
-;HotKeySet($SelfSpamButton, "ToggleSelfSpam")
-HotKeySet($PauseButton, "TogglePause")
-HotKeySet($SetupButton, "Setup")
-HotKeySet($EndButton, "RequestEnd") 
-
-func ToggleSelfSpam()
-	if $SelfSpam == true then
-		$SelfSpam = false
-	else
-		$SelfSpam = true
-	endif
-endfunc
-
-
-;---------------------------------------
-; Window checks
-;---------------------------------------
-$win_exists = false
-if WinExists($win_title, "") then
-	$win_exists = true
-elseif WinExists($win_title_ch, "") then
-	$win_exists = true
-endif
-
-if not $win_exists then
-   MsgBox(0, $title, $win_title & " window must be open.")
-   Exit
-endif
 
 ;---------------------------------------
 ; Wiz Tank functions 
 ;---------------------------------------
-func WickedWindSpam()
-   if $ActionQueued1 == false then
-	  $ActionQueued1 = true
+func PrimaryAttack()
+	if ($EnableAltPrimaryAttack == true) then
+		$UseAltAttackCounter = $UseAltAttackCounter + 1
+		if ($UseAltAttackCounter >= 16) then
+			$UseAltAttackCounter = 0
+			$UseAltAttack = Not $UseAltAttack
+		endif
+
+		if ($UseAltAttack) then
+			Send($MiscButton) ;misc
+		else
+			MouseClick("Left") ;ww		
+		endif
+	else
+		MouseClick("Left") ;ww
+	endif
+endfunc
+
+func SpamKeys()
+	; this version tries to get more nova/diamond skin into the rotation
+	if $ActionQueued == false then
+		$ActionQueue = true
 
 		Send("{SHIFTDOWN}")
 		
-		MouseClick("Left") ;ww
+		PrimaryAttack()		
+		Send($NovaButton)
+		Send($DiamondSkinButton)
+		PrimaryAttack()
 		
-		Send($NovaButton)	;nova
-		Send($DiamondSkinButton)	;shell
-	
+		if $useExplosiveBlast == True Then
+			Send($NovaButton)	;nova
+			Send($DiamondSkinButton) ;shell
+			Send($ExplosiveBlastButton) ;eb	
+		EndIf
+		
+		if $UseMiscButton == True And $EnableAltPrimaryAttack == false Then
+			MouseClick("Left") ;ww
+			Send($NovaButton)	;nova
+			Send($MiscButton) ;misc
+	    EndIf
 				
-		Send("{SHIFTUP}")
+		Send($NovaButton)	;nova
+		Send($DiamondSkinButton) ;shell
 		
+		Send("{SHIFTUP}")		
 		
-	  $ActionQueued1 = False
-   EndIf      
+		$ActionQueued = False
+	EndIf  
+EndFunc
+
+
+func WickedWindSpam()
+	$useExplosiveBlast = false
+	SpamKeys()
 EndFunc
 
 func EBSpam()
-   if $ActionQueued2 == false then
-	  $ActionQueued2 = true
-
-		Send("{SHIFTDOWN}")
-		
-		MouseClick("Left") ;ww
-		
-		Send($NovaButton)	;nova
-		Send($DiamondSkinButton)	;shell
-		Send($ExplosiveBlastButton) ;eb	
-		
-	    if $UseMiscButton == True Then
-	       Send($MiscButton) ;misc
-	    EndIf
-		
-		Send("{SHIFTUP}")
-		
-		
-		
-	  $ActionQueued2 = False
-   EndIf      
+	$useExplosiveBlast = true
+	SpamKeys()     
 EndFunc
 
 
 ;---------------------------------------
 ; SwitchMFGear
 ;---------------------------------------
-Global $switchingGear = False
 func SwitchMFGear()
 	if WinActive($win_title) or WinActive($win_title_ch) then
 	  If $switchingGear == True Then ;prevent spamming switch inventory key because of user panic
@@ -362,30 +391,6 @@ func ErrorMsg()
    MsgBox(0, $title, "Incorrect value entered or the user pressed cancel. Default value will be used!")
 endfunc
  
-;---------------------------------------
-; Main loop - for keycodes check bottom of script
-;---------------------------------------
-while 1
-   if WinActive($win_title) or WinActive($win_title_ch) then
-	  if $EnableSpamKeys And NOT $Paused Then
-		If _IsPressed('35') = 1 Then $SelfSpam = true
-		If _IsPressed('36') = 1 Then $SelfSpam = false
-		 If _IsPressed('31') = 1 AND _IsPressed('20') = 1 Then WickedWindSpam()
-		 If (_IsPressed('33') = 1 AND _IsPressed('20') = 1) Or $SelfSpam == true Then EBSpam()
-	  endif
-	  HotKeySet($MFButton, "SwitchMFGear")
-	  HotKeySet($PauseButton, "TogglePause")
-	  HotKeySet($SetupButton, "Setup")
-	  HotKeySet($EndButton, "RequestEnd") 
-   else ;when window is not active, disable all hotkeys
-	  HotKeySet($MFButton)
-	  HotKeySet($PauseButton)
-	  HotKeySet($SetupButton)
-	  HotKeySet($EndButton) 
-   endif
-   Sleep(250)
-wend
-
 #cs
 KeyPressed key codes
   01 Left mouse button
