@@ -9,8 +9,12 @@ ExplosiveBlastButton={3}
 MiscButton={4}
 SelfSpamButton={5}
 UseMiscButton=False
+<<<<<<< HEAD
+EnableSpamKeys=False
+=======
 EnableSpamKeys=True
 EnableAltPrimaryAttack=False
+>>>>>>> 3aa813b874e2796e1c4d9dd81b230736a9aa8f6d
 [Inventory]
 Inventory= i
 [CloseAllButton]

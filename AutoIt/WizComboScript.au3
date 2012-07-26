@@ -26,10 +26,27 @@ Global $switchingGear = False
 Global $UseAltAttack = false
 Global $UseAltAttackCounter = 0
 
+HotKeySet("{F6}", "AntiIdle")
 HotKeySet($PauseButton, "TogglePause")
 HotKeySet($SetupButton, "Setup")
 HotKeySet($EndButton, "RequestEnd") 
 
+Global $AntiIdle = False
+Global $IdleBeingCalled = False
+Func AntiIdle()
+   if $IdleBeingCalled == False then
+	  $IdleBeingCalled = True
+	  $AntiIdle = True
+	  Do
+		 Send("{i}")
+		 ToolTip("Idling")
+		 Sleep(60000)
+	  Until $AntiIdle
+	  ToolTip("")
+	  $IdleBeingCalled = False
+   Endif
+   $AntiIdle = False
+EndFunc	
 ;---------------------------------------
 ; Window checks
 ;---------------------------------------
