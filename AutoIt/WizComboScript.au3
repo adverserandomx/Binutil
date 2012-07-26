@@ -25,6 +25,7 @@ Global $switchingGear = False
 
 Global $UseAltAttack = false
 Global $UseAltAttackCounter = 0
+Global $MaxAltAttackCounter = 5
 
 HotKeySet($PauseButton, "TogglePause")
 HotKeySet($SetupButton, "Setup")
@@ -52,16 +53,25 @@ endif
 while 1
 	if WinActive($win_title) or WinActive($win_title_ch) then
 		if $EnableSpamKeys And NOT $Paused Then
-			If _IsPressed('35') = 1 Then $SelfSpam = true
-			If _IsPressed('36') = 1 Then 
+			If _IsPressed('35') = 1 AND _IsPressed('20') = 1 Then $SelfSpam = true
+			If _IsPressed('36') = 1 AND _IsPressed('20') = 1 Then 
 				$SelfSpam = false
 				
 				;reset the alt attack info
 				$UseAltAttack = false
 				$UseAltAttackCounter = 0
 			Endif
-			If _IsPressed('31') = 1 AND _IsPressed('20') = 1 Then WickedWindSpam()
-			If (_IsPressed('33') = 1 AND _IsPressed('20') = 1) Or $SelfSpam == true Then EBSpam()
+			If _IsPressed('31') = 1 AND _IsPressed('20') = 1 Then 
+				WickedWindSpam()
+				$SelfSpam = false
+			endif
+			If (_IsPressed('33') = 1 AND _IsPressed('20') = 1) Then 
+				EBSpam()
+				$SelfSpam = false
+			Endif
+			If $SelfSpam == true Then 
+				EBSpam()
+			Endif
 		endif
 		HotKeySet($MFButton, "SwitchMFGear")
 		HotKeySet($PauseButton, "TogglePause")
@@ -114,9 +124,8 @@ func ReadSettings()
 ; Wiz Tank functions 
 ;---------------------------------------
 func PrimaryAttack()
-	if ($EnableAltPrimaryAttack == true) then
-		$UseAltAttackCounter = $UseAltAttackCounter + 1
-		if ($UseAltAttackCounter >= 16) then
+	if ($EnableAltPrimaryAttack == true) then		
+		if ($UseAltAttackCounter >= $MaxAltAttackCounter) then
 			$UseAltAttackCounter = 0
 			$UseAltAttack = Not $UseAltAttack
 		endif
@@ -135,6 +144,8 @@ func SpamKeys()
 	; this version tries to get more nova/diamond skin into the rotation
 	if $ActionQueued == false then
 		$ActionQueue = true
+		
+		$UseAltAttackCounter = $UseAltAttackCounter + 1
 
 		Send("{SHIFTDOWN}")
 		
@@ -154,7 +165,8 @@ func SpamKeys()
 			Send($NovaButton)	;nova
 			Send($MiscButton) ;misc
 	    EndIf
-				
+		
+		PrimaryAttack()		
 		Send($NovaButton)	;nova
 		Send($DiamondSkinButton) ;shell
 		
@@ -181,6 +193,7 @@ EndFunc
 ;---------------------------------------
 func SwitchMFGear()
 	if WinActive($win_title) or WinActive($win_title_ch) then
+	  $SelfSpam = false
 	  If $switchingGear == True Then ;prevent spamming switch inventory key because of user panic
 		 Return
 	  EndIf
