@@ -98,7 +98,7 @@ func ReadSettings()
    
    Global $EnableSpamKeys = IniRead("Settings.ini", "Button", "EnableSpamKeys", true)
 
-   Global $MFButton = IniRead("Settings.ini", "Button", "SwitchMFButton", "!{0}"); alt+0 by default
+   Global $MFButton = IniRead("Settings.ini", "Button", "SwitchMFButton", "{F1}"); alt+0 by default
    Global $NovaButton = IniRead("Settings.ini", "Button", "NovaButton", "{1}")
    Global $DiamondSkinButton = IniRead("Settings.ini", "Button", "DiamondSkinButton", "{2}")
    Global $ExplosiveBlastButton = IniRead("Settings.ini", "Button", "ExplosiveBlastButton", "{3}")
@@ -267,12 +267,12 @@ func RunMFSetup()
 	$LButton = InputBox($title, "Enter which hotkey you want to use that'll toggle the gear swap." _
 	& @CRLF & $bindingInstructions, "" & $MFButton, "", 251, 250)
 	If $LButton <> "" then
-		IniWrite("Settings.ini", "Button", "Button", " " & $LButton)
+		IniWrite("Settings.ini", "Button", "SwitchMFButton", " " & $LButton)
 		$MFButton = $LButton
 	Else
-		$MFButton = 1
+		$MFButton = "{F1}"
 		ErrorMsg()
-		IniWrite("Settings.ini", "Button", "Button", " 1")
+		IniWrite("Settings.ini", "Button", "SwitchMFButton",$MFButton)
 	endif
 
 	$LInventory = InputBox($title, "In game keybinding used to open your inventory (i by default)." _
@@ -358,7 +358,7 @@ func RunMFSetup()
 endfunc
 
 Func WriteDefaultIni()
-   
+   Global $PauseButton = IniWrite("Settings.ini", "Button", "SwitchMFButton", "{F1}")   
    Global $PauseButton = IniWrite("Settings.ini", "Button", "PauseButton", "{F3}")
    Global $SetupButton = IniWrite("Settings.ini", "Button", "SetupButton", "{F4}")
    Global $EndButton = IniWrite("Settings.ini", "Button", "EndButton", "{F5}")
