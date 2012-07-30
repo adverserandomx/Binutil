@@ -358,11 +358,11 @@ func RunMFSetup()
 endfunc
 
 Func WriteDefaultIni()
-   Global $PauseButton = IniWrite("Settings.ini", "Button", "SwitchMFButton", "{F1}")   
+   Global $MFButton = IniWrite("Settings.ini", "Button", "SwitchMFButton", "{F1}")   
    Global $PauseButton = IniWrite("Settings.ini", "Button", "PauseButton", "{F3}")
    Global $SetupButton = IniWrite("Settings.ini", "Button", "SetupButton", "{F4}")
    Global $EndButton = IniWrite("Settings.ini", "Button", "EndButton", "{F5}")
-   Global $SelfSpamButton = IniWrite("Settings.ini", "Button", "EndButton", "{5}")
+   Global $SelfSpamButton = IniWrite("Settings.ini", "Button", "SelfSpamButton", "{5}")
    
    Global $EnableSpamKeys = IniWrite("Settings.ini", "Button", "EnableSpamKeys", true)
    Global $NovaButton = IniWrite("Settings.ini", "Button", "NovaButton", "{1}")
@@ -370,7 +370,8 @@ Func WriteDefaultIni()
    Global $ExplosiveBlastButton = IniWrite("Settings.ini", "Button", "ExplosiveBlastButton", "{3}")
    Global $MiscButton = IniWrite("Settings.ini", "Button", "MiscButton", "{4}")   
    Global $UseMiscButton = IniWrite("Settings.ini", "Button", "UseMiscButton", false)
-   
+   Global $EnableAltPrimaryAttack = IniWrite("Settings.ini", "Button", "EnableAltPrimaryAttack", false)
+      
 EndFunc
 
 
