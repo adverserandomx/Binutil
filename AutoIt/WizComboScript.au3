@@ -86,39 +86,6 @@ while 1
 	Sleep(200)
 wend
 
-;---------------------------------------
-; Values read from the Settings.ini file
-;---------------------------------------
-func ReadSettings()
-   
-   Global $PauseButton = IniRead("Settings.ini", "Button", "PauseButton", "{F3}")
-   Global $SetupButton = IniRead("Settings.ini", "Button", "SetupButton", "{F4}")
-   Global $EndButton = IniRead("Settings.ini", "Button", "EndButton", "{F5}")
-   Global $SelfSpamButton = IniRead("Settings.ini", "Button", "EndButton", "{5}")
-   
-   Global $EnableSpamKeys = IniRead("Settings.ini", "Button", "EnableSpamKeys", true)
-
-   Global $MFButton = IniRead("Settings.ini", "Button", "SwitchMFButton", "{F1}"); alt+0 by default
-   Global $NovaButton = IniRead("Settings.ini", "Button", "NovaButton", "{1}")
-   Global $DiamondSkinButton = IniRead("Settings.ini", "Button", "DiamondSkinButton", "{2}")
-   Global $ExplosiveBlastButton = IniRead("Settings.ini", "Button", "ExplosiveBlastButton", "{3}")
-   Global $MiscButton = IniRead("Settings.ini", "Button", "MiscButton", "{4}")   
-   Global $UseMiscButton = IniRead("Settings.ini", "Button", "UseMiscButton", false)
-   Global $EnableAltPrimaryAttack = IniRead("Settings.ini", "Button", "EnableAltPrimaryAttack", false)   
-
-   Global $CloseAllButton = IniRead("Settings.ini", "CloseAllButton", "CloseAllButton", "{SPACE}")
-   Global $Inventory = IniRead("Settings.ini", "Inventory", "Inventory", "{i}")
-   Global $NumOfItems = IniRead("Settings.ini", "NumOfItems", "NumOfItems", "0")
-   Global $SwitchBothRings = IniRead("Settings.ini", "SwitchBothRings", "SwitchBothRings", true)
-
-   Global $upperBound = $NumOfItems
-   if $SwitchBothRings == "False" then
-    Else
-		$upperBound = $upperBound - 1
-		Global $SecRingCoords = IniReadSection("Settings.ini", "SecRingCoords")
-	endif
-	Global $Coords = IniReadSection("Settings.ini", "Coords")
- endfunc
 
 ;---------------------------------------
 ; Wiz Tank functions 
@@ -250,22 +217,21 @@ func RunMFSetup()
 	$inGameInstructions = "= to suspend keypress detection" & @CRLF & _
 	"SHIFT+= to exit the program"
 
-	$bindingInstructions = "Instead of ALT use: !" & @CRLF & _
+	$bindingInstructions =  @CRLF & "Instead of ALT use: !" & @CRLF & _
 	"Instead of SHIFT use: +" & @CRLF & _
 	"Instead of CTRL use: ^" & @CRLF & _
 	"Examples:" & @CRLF & _
 	"SHIFT+CTRL+K = +^K"& @CRLF & _
 	"ALT+4 = !4"& @CRLF & _
 	"K = K"& @CRLF & _
-	"Please check your settings.ini to change other button defaults"
-
+	"Please check your settings.ini to change other button defaults"  & @CRLF & @CRLF
    
 	MsgBox(0, $title, $inGameInstructions)
 	
 	WriteDefaultIni()
 
-	$LButton = InputBox($title, "Enter which hotkey you want to use that'll toggle the gear swap." _
-	& @CRLF & $bindingInstructions, "" & $MFButton, "", 251, 250)
+	$LButton = InputBox($title, "Enter which hotkey you want to use that'll toggle the gear swap. {F1} by default" _
+	& @CRLF & $bindingInstructions, "{F1}", "", 251, 250)
 	If $LButton <> "" then
 		IniWrite("Settings.ini", "Button", "SwitchMFButton", " " & $LButton)
 		$MFButton = $LButton
@@ -276,7 +242,7 @@ func RunMFSetup()
 	endif
 
 	$LInventory = InputBox($title, "In game keybinding used to open your inventory (i by default)." _
-	& @CRLF & $bindingInstructions, "" & $Inventory, "", 251, 250)
+	& @CRLF & $bindingInstructions, "i", "", 251, 250)
 	If $LInventory <> "" then
 		IniWrite("Settings.ini", "Inventory", "Inventory", " " & $LInventory)
 		$Inventory = $LInventory
@@ -286,8 +252,8 @@ func RunMFSetup()
 		IniWrite("Settings.ini", "Inventory", "Inventory", " i")
 	endif
 
-	$LCloseAllButton = InputBox($title, "Enter which hotkey closes all windows in game (SPACE by default)(If you didn't change it in game, you can just press OK here)." _
-	& @CRLF & $bindingInstructions, "" & $CloseAllButton, "", 251, 250)
+	$LCloseAllButton = InputBox($title, "Enter which hotkey closes all windows in game ( {Backspace} or {SPACE} by default)(If you didn't change it in game, you can just press OK here)." _
+	& @CRLF & $bindingInstructions, "{Backspace}", "", 251, 250)
 	If $LCloseAllButton <> "" then
 		IniWrite("Settings.ini", "CloseAllButton", "CloseAllButton", " " & $LCloseAllButton)
 		$CloseAllButton = $LCloseAllButton
@@ -357,21 +323,44 @@ func RunMFSetup()
 
 endfunc
 
+;---------------------------------------
+; Values read from the Settings.ini file
+;---------------------------------------
+Func HandleIniKVP($AsRead, $File, $Section, $Key, $DefaultValue)
+	If $AsRead Then
+		Return IniRead($File, $Section, $Key, $DefaultValue)
+	Else
+		Return IniWrite($File, $Section, $Key, $DefaultValue)
+	EndIf
+endfunc
+
+Func HandleVariables($AsRead)
+	Global $PauseButton = HandleIniKVP($AsRead, "Settings.ini", "Button", "PauseButton", "{F3}")
+	Global $SetupButton = HandleIniKVP($AsRead, "Settings.ini", "Button", "SetupButton", "{F4}")
+	Global $EndButton = HandleIniKVP($AsRead, "Settings.ini", "Button", "EndButton", "{F5}")
+
+	Global $EnableSpamKeys = HandleIniKVP($AsRead, "Settings.ini", "Button", "EnableSpamKeys", true)
+
+	Global $MFButton = HandleIniKVP($AsRead, "Settings.ini", "Button", "SwitchMFButton", "{F1}")
+	Global $NovaButton = HandleIniKVP($AsRead, "Settings.ini", "Button", "NovaButton", "{1}")
+	Global $DiamondSkinButton = HandleIniKVP($AsRead, "Settings.ini", "Button", "DiamondSkinButton", "{2}")
+	Global $ExplosiveBlastButton = HandleIniKVP($AsRead, "Settings.ini", "Button", "ExplosiveBlastButton", "{3}")
+	Global $MiscButton = HandleIniKVP($AsRead, "Settings.ini", "Button", "MiscButton", "{4}")   
+	Global $UseMiscButton = HandleIniKVP($AsRead, "Settings.ini", "Button", "UseMiscButton", false)
+	Global $EnableAltPrimaryAttack = HandleIniKVP($AsRead, "Settings.ini", "Button", "EnableAltPrimaryAttack", false)   
+
+	Global $CloseAllButton = HandleIniKVP($AsRead, "Settings.ini", "CloseAllButton", "CloseAllButton", "{Backspace}")
+	Global $Inventory = HandleIniKVP($AsRead, "Settings.ini", "Inventory", "Inventory", "{i}")
+	Global $NumOfItems = HandleIniKVP($AsRead, "Settings.ini", "NumOfItems", "NumOfItems", "0")
+	Global $SwitchBothRings = HandleIniKVP($AsRead, "Settings.ini", "SwitchBothRings", "SwitchBothRings", true)
+EndFunc
+
+func ReadSettings()
+	HandleVariables(true) 
+endfunc
+
 Func WriteDefaultIni()
-   Global $MFButton = IniWrite("Settings.ini", "Button", "SwitchMFButton", "{F1}")   
-   Global $PauseButton = IniWrite("Settings.ini", "Button", "PauseButton", "{F3}")
-   Global $SetupButton = IniWrite("Settings.ini", "Button", "SetupButton", "{F4}")
-   Global $EndButton = IniWrite("Settings.ini", "Button", "EndButton", "{F5}")
-   Global $SelfSpamButton = IniWrite("Settings.ini", "Button", "SelfSpamButton", "{5}")
-   
-   Global $EnableSpamKeys = IniWrite("Settings.ini", "Button", "EnableSpamKeys", true)
-   Global $NovaButton = IniWrite("Settings.ini", "Button", "NovaButton", "{1}")
-   Global $DiamondSkinButton = IniWrite("Settings.ini", "Button", "DiamondSkinButton", "{2}")
-   Global $ExplosiveBlastButton = IniWrite("Settings.ini", "Button", "ExplosiveBlastButton", "{3}")
-   Global $MiscButton = IniWrite("Settings.ini", "Button", "MiscButton", "{4}")   
-   Global $UseMiscButton = IniWrite("Settings.ini", "Button", "UseMiscButton", false)
-   Global $EnableAltPrimaryAttack = IniWrite("Settings.ini", "Button", "EnableAltPrimaryAttack", false)
-      
+	HandleVariables(false) 
 EndFunc
 
 
