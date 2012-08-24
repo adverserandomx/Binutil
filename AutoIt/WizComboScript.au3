@@ -121,7 +121,8 @@ func ReadSettings()
    Global $ExplosiveBlastButton = IniRead("Settings.ini", "Button", "ExplosiveBlastButton", "{3}")
    Global $MiscButton = IniRead("Settings.ini", "Button", "MiscButton", "{4}")   
    Global $UseMiscButton = IniRead("Settings.ini", "Button", "UseMiscButton", false)
-   Global $EnableAltPrimaryAttack = IniRead("Settings.ini", "Button", "EnableAltPrimaryAttack", false)   
+   Global $EnableAltPrimaryAttack = IniRead("Settings.ini", "Button", "EnableAltPrimaryAttack", false)  
+   Global $EnableMeteor = IniRead("Settings.ini", "Button", "EnableMeteor", false)   
 
    Global $CloseAllButton = IniRead("Settings.ini", "CloseAllButton", "CloseAllButton", "{SPACE}")
    Global $Inventory = IniRead("Settings.ini", "Inventory", "Inventory", "{i}")
@@ -167,6 +168,9 @@ func SpamKeys()
 		Send("{SHIFTDOWN}")
 		
 		PrimaryAttack()		
+		If $EnableMeteor == True Then ; add slight delay for Meteor
+		 Sleep(175)
+		EndIf
 		Send($NovaButton)
 		Send($DiamondSkinButton)
 		PrimaryAttack()
@@ -388,6 +392,7 @@ Func WriteDefaultIni()
    Global $MiscButton = IniWrite("Settings.ini", "Button", "MiscButton", "{4}")   
    Global $UseMiscButton = IniWrite("Settings.ini", "Button", "UseMiscButton", false)
    Global $EnableAltPrimaryAttack = IniWrite("Settings.ini", "Button", "EnableAltPrimaryAttack", false)
+   Global $EnableMeteor = IniWrite("Settings.ini", "Button", "EnableMeteor", false)
       
 EndFunc
 
