@@ -218,7 +218,7 @@ func SwitchMFGear()
 	  BlockInput(1)
 	  $StartPos = MouseGetPos()
 	  Send($CloseAllButton)
-	  Sleep(100)
+	  Sleep(250)
 	  Send($Inventory)
 	  Sleep(100)
 	  For $i = 1 To $upperBound
