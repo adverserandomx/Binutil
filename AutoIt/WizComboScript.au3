@@ -148,6 +148,7 @@ func PrimaryAttack()
 			$UseAltAttack = Not $UseAltAttack
 		endif
 
+Send($NovaButton)
 		if ($UseAltAttack) then
 			Send($MiscButton) ;misc
 		else
@@ -155,7 +156,8 @@ func PrimaryAttack()
 		endif
 	else
 		MouseClick("Left") ;ww
-	endif
+	 endif
+	 Send($NovaButton)
 endfunc
 
 func SpamKeys()
@@ -187,6 +189,7 @@ func SpamKeys()
 			Send($MiscButton) ;misc
 	    EndIf
 		
+		Send($NovaButton)
 		PrimaryAttack()		
 		Send($NovaButton)	;nova
 		Send($DiamondSkinButton) ;shell
