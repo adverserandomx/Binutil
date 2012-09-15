@@ -10,8 +10,8 @@ _Singleton("d3WizardHelper")
 ; Globals - Change values here to your preferences
 ;---------------------------------------------------------------------
 Global $SettingsFile = IniRead("LocalSetup.ini", "FileConfig", "SettingsFile", "Settings.ini")
-Global $EnableF3HotKey = IniRead("LocalSetup.ini", "HotKeyConfig", "EnableF3HotKey", false)
-Global $EnableF4HotKey = IniRead("LocalSetup.ini", "HotKeyConfig", "EnableF4HotKey", false)
+Global $EnableF3HotKey = IniRead($SettingsFile, "HotKeyConfig", "EnableF3HotKey", false)
+Global $EnableF4HotKey = IniRead($SettingsFile, "HotKeyConfig", "EnableF4HotKey", false)
 
 Global $sleepTimeForCoordDetection = 2000 ;set the amount of time you want to wait during MF setup between each item coordinate
 ;load INI settings - DON'T MOVE THIS FUNCTION CALL
