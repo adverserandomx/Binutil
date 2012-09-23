@@ -76,7 +76,7 @@ func RunMFSetup()
 	WriteDefaultIni()
 
 	$LButton = InputBox($title, "Enter which hotkey you want to use that'll toggle the gear swap." _
-	& @CRLF & $bindingInstructions, "{F" & $MFButton, "}", 251, 250)
+	& @CRLF & $bindingInstructions, "{F1}", 251, 250)
 	If $LButton <> "" then
 		IniWrite($SettingsFile, "Button", "SwitchMFButton", " " & $LButton)
 		$MFButton = $LButton
